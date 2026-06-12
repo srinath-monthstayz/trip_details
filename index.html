@@ -169,6 +169,7 @@ table.inv-table td:last-child{text-align:right;white-space:nowrap}
     <div class="topbar-right">
       <button class="btn btn-solid" id="new-inquiry-btn">+ New inquiry</button>
       <button class="btn" id="refresh-btn" title="Refresh" style="background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.2)">↺</button>
+      <button class="btn" id="disconnect-btn" title="Forget saved token" style="background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.2)">Disconnect</button>
     </div>
   </div>
   <div id="filters">
@@ -285,7 +286,7 @@ async function connectToken(){
   TOKEN=t;
   try{
     await at(BASE+'/'+MASTER+'?maxRecords=1');
-    sessionStorage.setItem('ms_token',t);
+    localStorage.setItem('ms_token',t);
     document.getElementById('token-screen').style.display='none';
     document.getElementById('app').style.display='block';
     initFilters();
@@ -684,13 +685,14 @@ document.getElementById('token-btn').onclick=connectToken;
 document.getElementById('token-input').addEventListener('keydown',e=>{if(e.key==='Enter')connectToken();});
 document.getElementById('new-inquiry-btn').onclick=openNewTrip;
 document.getElementById('refresh-btn').onclick=loadTrips;
+document.getElementById('disconnect-btn').onclick=function(){localStorage.removeItem('ms_token');TOKEN='';document.getElementById('app').style.display='none';document.getElementById('token-screen').style.display='block';document.getElementById('token-input').value='';};
 document.getElementById('search').oninput=renderView;
 document.getElementById('filter-year').onchange=renderView;
 document.getElementById('filter-stage').onchange=renderView;
 document.getElementById('filter-city').onchange=renderView;
 document.querySelectorAll('.navbtn').forEach(b=>b.onclick=()=>setView(b.dataset.view));
 
-const saved=sessionStorage.getItem('ms_token');
+const saved=localStorage.getItem('ms_token');
 if(saved){TOKEN=saved;document.getElementById('token-screen').style.display='none';document.getElementById('app').style.display='block';initFilters();loadTrips();}
 </script>
 </body>
