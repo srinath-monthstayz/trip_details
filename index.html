@@ -560,7 +560,7 @@ async function openInvoice(tripId){
   subs.forEach((sub,si)=>{
     const cost=subCost(sub);
     const propName=subProperty(sub);
-    const label='EXTENSION '+(si+1)+(propName?' — '+esc(propName):'');
+    const label='EXTENSION '+(si+1);
     rows+='<tr class="inv-section-head"><td style="color:var(--brand);padding-top:10px">'+label+'</td><td style="text-align:right;font-size:12px;color:var(--text2);padding-top:10px">'+fmtDate(subCheckin(sub))+' → '+fmtDate(subCheckout(sub))+'</td></tr>'+
       '<tr><td>Room rental — '+(subNights(sub)||'?')+' nights</td><td style="font-weight:600;text-align:right">'+fmtThb(cost)+'</td></tr>'+
       '<tr style="border-top:1px solid var(--border)"><td style="font-weight:600;padding-top:5px">Total room cost</td><td style="font-weight:600;text-align:right;padding-top:5px">'+fmtThb(cost)+'</td></tr>'+
@@ -579,10 +579,11 @@ async function openInvoice(tripId){
   const invNum='INV-'+tripId.slice(-6).toUpperCase()+'-'+new Date().getFullYear();
   const today=new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'});
   const html='<div id="inv-print">'+
-    '<div class="inv-header"><div><div class="inv-brand">MONTHSTAYZ</div><div style="font-size:11px;color:var(--text2)">monthstayzthailand.com</div></div><div class="inv-meta"><div class="inv-num">'+invNum+'</div><div>'+today+'</div></div></div>'+
-    '<div class="inv-parties"><div><div class="inv-party-label">Bill to</div><div class="inv-party-name">'+esc(guestName(f))+'</div>'+(f['Email Id']?'<div class="inv-party-sub">'+esc(f['Email Id'])+'</div>':'')+'</div><div class="inv-party-right"><div class="inv-party-label">Property</div><div class="inv-party-name" style="font-size:13px">'+esc(f['Property (for automations)']||'—')+'</div><div class="inv-party-sub">'+fmtDate(f['Arrival Date'])+' → '+fmtDate(f['Checkout Date'])+'</div><div style="margin-top:5px">'+pillHtml(f['Inquiry status']||'Inquiry')+'</div></div></div>'+
+    '<div class="inv-header"><div style="display:flex;align-items:center;gap:12px"><img src="https://cdn.prod.website-files.com/67621c36e202add540e25339/6a2bc9b2651c27d1951530ee_Month%20Stayz%20Thailand.png" alt="Goldstar Empire" style="width:52px;height:52px;border-radius:8px;object-fit:cover" onerror="this.style.display=\'none\'"><div><div class="inv-brand">Goldstar Empire</div><div style="font-size:11px;color:#6b6b6b">GOLD STAR EMPIRE CO LTD</div></div></div><div class="inv-meta"><div class="inv-num">'+invNum+'</div><div>'+today+'</div></div></div>'+
+    '<div style="font-size:12px;color:#6b6b6b;line-height:1.7;margin-bottom:18px"><a href="https://monthstayzthailand.com/" target="_blank" style="color:#E77125;text-decoration:none">https://monthstayzthailand.com/</a><br>info@monthstayzthailand.com<br>+66 950720072<br>2/55 Moo4 soi Pasak11, T.Chengtalay, A.Talang, Phuket 83110, Thailand<br>Tax ID: 0205562014848</div>'+
+    '<div class="inv-parties"><div><div class="inv-party-label">Bill to</div><div class="inv-party-name">'+esc(guestName(f))+'</div>'+(f['Email Id']?'<div class="inv-party-sub">'+esc(f['Email Id'])+'</div>':'')+'</div><div class="inv-party-right"><div class="inv-party-label">Property</div><div class="inv-party-name" style="font-size:13px">'+esc(f['Property (for automations)']||'—')+'</div></div></div>'+
     '<table class="inv-table"><tbody>'+rows+'</tbody></table>'+
-    '<div class="inv-note">Payment accepted via bank transfer, cash, or cryptocurrency.<br>Queries: hello@monthstayzthailand.com</div>'+
+    '<div class="inv-note">Payment accepted via bank transfer, cash, or cryptocurrency.<br>Queries: info@monthstayzthailand.com</div>'+
     '</div>'+
     '<div style="display:flex;gap:8px;margin-top:18px;padding-top:14px;border-top:1px solid var(--border)"><button class="btn btn-solid" onclick="printInvoice()">🖨 Print / Save PDF</button><button class="btn btn-ghost" onclick="closeModal()">Close</button></div>';
   showModal(html,'Invoice');
