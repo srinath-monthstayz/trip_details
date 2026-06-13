@@ -40,6 +40,10 @@ button:disabled{opacity:.45;cursor:not-allowed}
 #filters{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
 #filters input{flex:2;min-width:160px;max-width:300px}
 #filters select{flex:1;min-width:120px;max-width:200px}
+.city-tabs{display:flex;gap:4px;background:var(--bg2);border:1px solid var(--border);border-radius:9px;padding:3px;align-self:center}
+.city-tab{padding:6px 16px;border-radius:7px;border:none;background:transparent;color:var(--text2);font-size:13px;font-weight:600;white-space:nowrap}
+.city-tab.active{background:var(--brand);color:#fff}
+.city-tab:hover:not(.active){background:var(--bg3)}
 #kanban{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
 .col{background:var(--bg2);border-radius:var(--radius);padding:10px}
 .col-header{display:flex;align-items:center;gap:6px;margin-bottom:10px}
@@ -176,11 +180,11 @@ table.inv-table td:last-child{text-align:right;white-space:nowrap}
     <input type="text" id="search" placeholder="Search guest or property…" />
     <select id="filter-year"><option value="">All years</option></select>
     <select id="filter-stage"><option value="">All stages</option></select>
-    <select id="filter-city">
-      <option value="">All cities</option>
-      <option value="pattaya">Pattaya</option>
-      <option value="phuket">Phuket</option>
-    </select>
+    <div class="city-tabs">
+      <button class="city-tab active" data-city="">All cities</button>
+      <button class="city-tab" data-city="pattaya">Pattaya</button>
+      <button class="city-tab" data-city="phuket">Phuket</button>
+    </div>
     <span id="trip-count" style="font-size:12px;color:var(--text2);align-self:center;white-space:nowrap">Loading…</span>
   </div>
   <div id="view-container"></div>
@@ -220,6 +224,7 @@ const SERVICE_TYPES=['Electricity','Cleaning service','Laundry','Airport Transfe
 let TOKEN='';
 let allTrips=[];
 let currentView='pipeline';
+let currentCity='';
 
 // ── Airtable ──
 async function at(path, method='GET', body=null){
@@ -351,7 +356,7 @@ function getFiltered(){
   const q=document.getElementById('search').value.toLowerCase();
   const year=document.getElementById('filter-year').value;
   const stage=document.getElementById('filter-stage').value;
-  const city=document.getElementById('filter-city').value;
+  const city=currentCity;
   return allTrips.filter(t=>{
     const f=t.fields||{};
     const name=guestName(f).toLowerCase();
@@ -591,8 +596,21 @@ async function openInvoice(tripId){
 function printInvoice(){
   const el=document.getElementById('inv-print');if(!el)return;
   const w=window.open('','_blank');
-  w.document.write('<!DOCTYPE html><html><head><title>Invoice</title><style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:Arial,sans-serif;padding:32px;max-width:620px;margin:auto;color:#111;font-size:14px}.inv-brand{font-size:20px;font-weight:800;color:#E77125}.inv-header{display:flex;justify-content:space-between;margin-bottom:20px}.inv-parties{display:grid;grid-template-columns:1fr 1fr;gap:16px;background:#f8f7f5;border-radius:8px;padding:14px;margin-bottom:18px}.inv-party-label{font-size:10px;color:#666;text-transform:uppercase;font-weight:700;margin-bottom:3px}.inv-party-name{font-weight:700}.inv-party-right{text-align:right}table{width:100%;border-collapse:collapse}td{padding:5px 0;font-size:13px}td:last-child{text-align:right}.inv-section-head td{font-size:11px;font-weight:700;padding-top:12px}hr{border:none;border-top:1px solid #e5e3dc}.inv-total td{font-size:15px;font-weight:700;padding:8px 0 4px}.inv-note{margin-top:18px;padding:12px;background:#f8f7f5;border-radius:8px;border-left:3px solid #E77125;font-size:12px;color:#666}.pill{display:inline-block;padding:2px 8px;border-radius:12px;font-size:10px;font-weight:700}@media print{body{padding:0}}</style></head><body>'+el.innerHTML+'</body></html>');
-  w.document.close();w.print();
+  if(!w){showToast('Allow pop-ups to download the PDF');return;}
+  const pcss=`:root{--brand:#E77125;--text:#1a1a1a;--text2:#6b6b6b;--text3:#aaaaaa;--border:#e5e3dc;--bg2:#f8f7f5}*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}body{font-family:'Montserrat',Arial,sans-serif;padding:32px;max-width:620px;margin:auto;color:#1a1a1a;font-size:14px}.inv-brand{font-size:20px;font-weight:800;color:#E77125;letter-spacing:.5px}.inv-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px}.inv-meta{text-align:right;font-size:12px;color:#6b6b6b}.inv-meta .inv-num{font-weight:600;font-size:14px;color:#1a1a1a}.inv-parties{display:grid;grid-template-columns:1fr 1fr;gap:16px;background:#f8f7f5;border-radius:8px;padding:14px;margin-bottom:18px}.inv-party-label{font-size:10px;color:#6b6b6b;text-transform:uppercase;font-weight:700;margin-bottom:3px}.inv-party-name{font-weight:700}.inv-party-sub{font-size:12px;color:#6b6b6b}.inv-party-right{text-align:right}table{width:100%;border-collapse:collapse}td{padding:5px 0;font-size:13px;vertical-align:top}td:last-child{text-align:right}.inv-section-head td{font-size:11px;font-weight:700;padding-top:12px}hr,.inv-hr{border:none;border-top:1px solid #e5e3dc;width:100%;display:block}.inv-total td{font-size:15px;font-weight:700;padding:8px 0 4px}.inv-total td:last-child{color:#E77125}.inv-note{margin-top:18px;padding:12px;background:#f8f7f5;border-radius:8px;border-left:3px solid #E77125;font-size:12px;color:#6b6b6b;line-height:1.6}.pill{display:inline-block;padding:2px 8px;border-radius:12px;font-size:10px;font-weight:700}a{color:#E77125;text-decoration:none}@media print{body{padding:0}}`;
+  w.document.write('<!DOCTYPE html><html><head><meta charset="utf-8"><title>Invoice</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet"><style>'+pcss+'</style></head><body>'+el.innerHTML+'</body></html>');
+  w.document.close();
+  let printed=false;
+  const doPrint=function(){if(printed)return;printed=true;try{w.focus();w.print();}catch(e){}};
+  const whenReady=function(){
+    const imgs=Array.prototype.slice.call(w.document.images||[]);
+    const imgReady=Promise.all(imgs.map(function(img){return img.complete?Promise.resolve():new Promise(function(res){img.onload=img.onerror=res;});}));
+    const fontReady=(w.document.fonts&&w.document.fonts.ready)?w.document.fonts.ready:Promise.resolve();
+    Promise.all([imgReady,fontReady]).then(function(){setTimeout(doPrint,250);}).catch(doPrint);
+  };
+  w.onload=whenReady;
+  setTimeout(whenReady,500);
+  setTimeout(doPrint,3000);
 }
 
 // ── Add subtrip ──
@@ -690,7 +708,11 @@ document.getElementById('disconnect-btn').onclick=function(){localStorage.remove
 document.getElementById('search').oninput=renderView;
 document.getElementById('filter-year').onchange=renderView;
 document.getElementById('filter-stage').onchange=renderView;
-document.getElementById('filter-city').onchange=renderView;
+document.querySelectorAll('.city-tab').forEach(b=>b.onclick=function(){
+  currentCity=b.dataset.city;
+  document.querySelectorAll('.city-tab').forEach(x=>x.classList.toggle('active',x===b));
+  renderView();
+});
 document.querySelectorAll('.navbtn').forEach(b=>b.onclick=()=>setView(b.dataset.view));
 
 const saved=localStorage.getItem('ms_token');
