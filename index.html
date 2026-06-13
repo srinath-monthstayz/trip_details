@@ -44,6 +44,20 @@ button:disabled{opacity:.45;cursor:not-allowed}
 .city-tab{padding:6px 16px;border-radius:7px;border:none;background:transparent;color:var(--text2);font-size:13px;font-weight:600;white-space:nowrap}
 .city-tab.active{background:var(--brand);color:#fff}
 .city-tab:hover:not(.active){background:var(--bg3)}
+#home-screen{max-width:760px;margin:5rem auto;padding:0 1rem}
+.home-logo{display:flex;align-items:center;gap:14px;justify-content:center;margin-bottom:6px}
+.home-logo img{width:58px;height:58px;border-radius:50%;object-fit:cover}
+.home-brand{font-family:Georgia,'Times New Roman',serif;font-weight:700;font-size:28px;color:var(--brand);letter-spacing:.3px}
+.home-title{text-align:center;color:var(--text2);font-size:15px;margin-bottom:30px}
+.home-cards{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.home-card{background:var(--bg);border:1px solid var(--border);border-radius:16px;padding:34px 24px;text-align:center;cursor:pointer;transition:transform .12s ease,border-color .12s ease,box-shadow .12s ease}
+.home-card:hover{border-color:var(--brand);transform:translateY(-3px);box-shadow:0 10px 26px rgba(0,0,0,.08)}
+.home-card-emoji{font-size:46px;margin-bottom:10px;line-height:1}
+.home-card-name{font-size:22px;font-weight:700;margin-bottom:4px}
+.home-card-sub{font-size:13px;color:var(--text2)}
+.home-all{display:block;margin:24px auto 0;background:transparent;border:none;color:var(--brand);font-size:14px;font-weight:600;cursor:pointer}
+.home-all:hover{text-decoration:underline}
+@media(max-width:560px){.home-cards{grid-template-columns:1fr}}
 #kanban{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
 .col{background:var(--bg2);border-radius:var(--radius);padding:10px}
 .col-header{display:flex;align-items:center;gap:6px;margin-bottom:10px}
@@ -156,9 +170,30 @@ table.inv-table td:last-child{text-align:right;white-space:nowrap}
   <button class="btn btn-solid" style="width:100%;justify-content:center" id="token-btn">Connect to Airtable</button>
 </div>
 
+<div id="home-screen" style="display:none">
+  <div class="home-logo">
+    <img src="https://cdn.prod.website-files.com/67621c36e202add540e25339/6a2bc9b2651c27d1951530ee_Month%20Stayz%20Thailand.png" alt="Goldstar Empire" onerror="this.style.display='none'">
+    <div class="home-brand">Goldstar Empire</div>
+  </div>
+  <div class="home-title">Choose a location to view its pipeline</div>
+  <div class="home-cards">
+    <button class="home-card" data-city="pattaya">
+      <div class="home-card-emoji">🏖️</div>
+      <div class="home-card-name">Pattaya</div>
+      <div class="home-card-sub" data-count="pattaya">View Pattaya trips</div>
+    </button>
+    <button class="home-card" data-city="phuket">
+      <div class="home-card-emoji">🏝️</div>
+      <div class="home-card-name">Phuket</div>
+      <div class="home-card-sub" data-count="phuket">View Phuket trips</div>
+    </button>
+  </div>
+  <button class="home-all" data-city="">View all cities →</button>
+</div>
+
 <div id="app" style="display:none">
   <div id="topbar">
-    <div class="logo">
+    <div class="logo" id="logo-home" title="Back to locations" style="cursor:pointer">
       <div class="logo-icon"><img src="https://cdn.prod.website-files.com/67621c36e202add540e25339/6a2bc9b2651c27d1951530ee_Month%20Stayz%20Thailand.png" alt="Monthstayz Thailand" onerror="this.parentElement.innerHTML='<span class=&quot;logo-mark&quot;>MS</span>'"></div>
       <div>
         <div class="logo-text">Monthstayz Thailand</div>
@@ -293,8 +328,8 @@ async function connectToken(){
     await at(BASE+'/'+MASTER+'?maxRecords=1');
     localStorage.setItem('ms_token',t);
     document.getElementById('token-screen').style.display='none';
-    document.getElementById('app').style.display='block';
     initFilters();
+    showHome();
     loadTrips();
   }catch(e){
     document.getElementById('token-error').textContent='Could not connect. Check your token.';
@@ -329,6 +364,7 @@ async function loadTrips(){
     }while(offset && records.length<5000);
     allTrips=records;
     document.getElementById('trip-count').textContent=records.length+' trips loaded';
+    updateHomeCounts();
     initYearFilter();
     renderView();
   }catch(e){
@@ -700,11 +736,33 @@ function closeModal(){document.getElementById('modal-container').innerHTML='';}
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
 
 // ── Init ──
+function cityCount(c){return allTrips.filter(t=>tripCity(t.fields||{})===c).length;}
+function updateHomeCounts(){
+  const p=document.querySelector('.home-card-sub[data-count="pattaya"]');
+  const k=document.querySelector('.home-card-sub[data-count="phuket"]');
+  if(p)p.textContent=cityCount('pattaya')+' trips';
+  if(k)k.textContent=cityCount('phuket')+' trips';
+}
+function showHome(){
+  document.getElementById('token-screen').style.display='none';
+  document.getElementById('app').style.display='none';
+  document.getElementById('home-screen').style.display='block';
+  updateHomeCounts();
+}
+function enterCity(c){
+  currentCity=c;
+  document.querySelectorAll('.city-tab').forEach(x=>x.classList.toggle('active',x.dataset.city===c));
+  document.getElementById('home-screen').style.display='none';
+  document.getElementById('app').style.display='block';
+  renderView();
+}
 document.getElementById('token-btn').onclick=connectToken;
 document.getElementById('token-input').addEventListener('keydown',e=>{if(e.key==='Enter')connectToken();});
 document.getElementById('new-inquiry-btn').onclick=openNewTrip;
 document.getElementById('refresh-btn').onclick=loadTrips;
-document.getElementById('disconnect-btn').onclick=function(){localStorage.removeItem('ms_token');TOKEN='';document.getElementById('app').style.display='none';document.getElementById('token-screen').style.display='block';document.getElementById('token-input').value='';};
+document.getElementById('disconnect-btn').onclick=function(){localStorage.removeItem('ms_token');TOKEN='';document.getElementById('app').style.display='none';document.getElementById('home-screen').style.display='none';document.getElementById('token-screen').style.display='block';document.getElementById('token-input').value='';};
+document.getElementById('logo-home').onclick=showHome;
+document.querySelectorAll('.home-card, .home-all').forEach(b=>b.onclick=()=>enterCity(b.dataset.city));
 document.getElementById('search').oninput=renderView;
 document.getElementById('filter-year').onchange=renderView;
 document.getElementById('filter-stage').onchange=renderView;
@@ -716,7 +774,7 @@ document.querySelectorAll('.city-tab').forEach(b=>b.onclick=function(){
 document.querySelectorAll('.navbtn').forEach(b=>b.onclick=()=>setView(b.dataset.view));
 
 const saved=localStorage.getItem('ms_token');
-if(saved){TOKEN=saved;document.getElementById('token-screen').style.display='none';document.getElementById('app').style.display='block';initFilters();loadTrips();}
+if(saved){TOKEN=saved;document.getElementById('token-screen').style.display='none';initFilters();showHome();loadTrips();}
 </script>
 </body>
 </html>
