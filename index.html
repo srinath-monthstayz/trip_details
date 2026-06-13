@@ -53,9 +53,9 @@ button:disabled{opacity:.45;cursor:not-allowed}
 .home-cards{display:grid;grid-template-columns:1fr 1fr;gap:22px}
 .home-card{width:100%;position:relative;overflow:hidden;text-align:left;background:linear-gradient(160deg,rgba(255,255,255,.07),rgba(255,255,255,.02));border:1px solid rgba(244,239,230,.14);border-radius:18px;padding:26px 26px 22px;cursor:pointer;color:#f4efe6;transition:transform .25s cubic-bezier(.2,.7,.2,1),border-color .25s,box-shadow .25s,background .25s}
 .home-card:hover,.home-card:focus-visible{transform:translateY(-6px);border-color:rgba(231,113,37,.7);box-shadow:0 22px 52px rgba(0,0,0,.5);background:linear-gradient(160deg,rgba(231,113,37,.15),rgba(255,255,255,.03));outline:none}
-.home-card-sea{font-size:10.5px;letter-spacing:2.5px;text-transform:uppercase;color:#e7a868;font-weight:700;margin-bottom:14px}
-.home-card-name{font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:34px;line-height:1;margin-bottom:6px;color:#fff}
-.home-card-place{font-size:12.5px;color:rgba(244,239,230,.55);margin-bottom:14px}
+.home-card-sea{display:none}
+.home-card-name{font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:34px;line-height:1;margin-bottom:18px;color:#fff}
+.home-card-place{display:none}
 .home-coast{height:44px;margin:4px 0 16px}
 .home-coast svg{width:100%;height:100%;display:block}
 .home-card-foot{display:flex;align-items:flex-end;justify-content:space-between}
@@ -187,9 +187,7 @@ table.inv-table td:last-child{text-align:right;white-space:nowrap}
     <div class="home-sub">Long-stay villa &amp; condo operations across Thailand's two coasts. Choose a location to open its booking pipeline.</div>
     <div class="home-cards">
       <button class="home-card" data-city="pattaya">
-        <div class="home-card-sea">Gulf of Thailand</div>
         <div class="home-card-name">Pattaya</div>
-        <div class="home-card-place">Chonburi · East coast</div>
         <div class="home-coast"><svg viewBox="0 0 320 44" preserveAspectRatio="none"><defs><linearGradient id="lnp" x1="0" x2="1"><stop offset="0" stop-color="rgba(231,168,104,0)"/><stop offset=".5" stop-color="rgba(231,168,104,.85)"/><stop offset="1" stop-color="rgba(231,168,104,0)"/></linearGradient></defs><circle cx="150" cy="26" r="11" fill="rgba(231,168,104,.22)"/><circle cx="150" cy="26" r="5" fill="rgba(255,213,156,.95)"/><line x1="0" y1="26" x2="320" y2="26" stroke="url(#lnp)" stroke-width="1.3"/><path d="M0 35 Q70 28 150 35 T320 35" stroke="rgba(231,168,104,.32)" stroke-width="1" fill="none"/></svg></div>
         <div class="home-card-foot">
           <div class="home-card-stat" data-count="pattaya"><span class="stat-num">—</span> active trips</div>
@@ -197,9 +195,7 @@ table.inv-table td:last-child{text-align:right;white-space:nowrap}
         </div>
       </button>
       <button class="home-card" data-city="phuket">
-        <div class="home-card-sea">Andaman Sea</div>
         <div class="home-card-name">Phuket</div>
-        <div class="home-card-place">Southern Thailand · West coast</div>
         <div class="home-coast"><svg viewBox="0 0 320 44" preserveAspectRatio="none"><defs><linearGradient id="lnk" x1="0" x2="1"><stop offset="0" stop-color="rgba(231,168,104,0)"/><stop offset=".5" stop-color="rgba(231,168,104,.85)"/><stop offset="1" stop-color="rgba(231,168,104,0)"/></linearGradient></defs><circle cx="170" cy="26" r="11" fill="rgba(231,168,104,.22)"/><circle cx="170" cy="26" r="5" fill="rgba(255,213,156,.95)"/><line x1="0" y1="26" x2="320" y2="26" stroke="url(#lnk)" stroke-width="1.3"/><path d="M0 35 Q90 41 170 34 T320 36" stroke="rgba(231,168,104,.32)" stroke-width="1" fill="none"/></svg></div>
         <div class="home-card-foot">
           <div class="home-card-stat" data-count="phuket"><span class="stat-num">—</span> active trips</div>
