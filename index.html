@@ -128,14 +128,22 @@ button:disabled{opacity:.45;cursor:not-allowed}
 .sub-card{background:var(--bg2);border-radius:9px;padding:12px;margin-bottom:10px}
 .sub-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
 .inv-brand{font-size:20px;font-weight:800;color:var(--brand);letter-spacing:.5px}
-.inv-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px}
+.inv-co{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;margin-bottom:22px;padding-bottom:18px;border-bottom:2px solid var(--brand)}
+.inv-co-name{font-size:18px;font-weight:800;color:var(--text);letter-spacing:.2px}
+.inv-co-trade{font-size:12px;color:var(--brand);font-weight:600;margin-top:1px}
+.inv-co-detail{font-size:11px;color:var(--text2);line-height:1.65;margin-top:8px;max-width:280px}
+.inv-doc-title{font-size:24px;font-weight:800;color:var(--brand);text-align:right;letter-spacing:1.5px}
+.inv-doc-meta{font-size:12px;color:var(--text2);text-align:right;margin-top:8px;line-height:1.8}
+.inv-doc-meta b{color:var(--text);font-weight:600}
 .inv-meta{text-align:right;font-size:12px;color:var(--text2)}
 .inv-meta .inv-num{font-weight:600;font-size:14px;color:var(--text)}
-.inv-parties{display:grid;grid-template-columns:1fr 1fr;gap:16px;background:var(--bg2);border-radius:9px;padding:14px;margin-bottom:18px}
+.inv-parties{display:grid;grid-template-columns:1fr 1fr;gap:16px;background:var(--bg2);border-radius:9px;padding:14px;margin-bottom:20px}
 .inv-party-label{font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px;font-weight:600}
 .inv-party-name{font-weight:600;font-size:14px}
 .inv-party-sub{font-size:12px;color:var(--text2)}
 .inv-party-right{text-align:right}
+.inv-section-label{font-size:11px;font-weight:700;letter-spacing:1px;color:var(--brand);text-transform:uppercase;margin:22px 0 8px;padding-bottom:6px;border-bottom:1px solid var(--border2)}
+.inv-section-label:first-of-type{margin-top:0}
 table.inv-table{width:100%;border-collapse:collapse}
 table.inv-table td{padding:5px 0;font-size:13px;vertical-align:top}
 table.inv-table td:last-child{text-align:right;white-space:nowrap}
@@ -144,6 +152,45 @@ table.inv-table td:last-child{text-align:right;white-space:nowrap}
 .inv-total td{font-size:15px;font-weight:700;padding:8px 0 4px}
 .inv-total td:last-child{color:var(--brand)}
 .inv-note{margin-top:18px;padding:12px;background:var(--bg2);border-radius:8px;border-left:3px solid var(--brand);font-size:12px;color:var(--text2);line-height:1.6}
+table.inv-table2{width:100%;border-collapse:collapse;margin-bottom:4px}
+table.inv-table2 th{text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:.4px;color:var(--text2);padding:0 0 6px;border-bottom:1px solid var(--border2);font-weight:600}
+table.inv-table2 th:last-child,table.inv-table2 td:last-child{text-align:right}
+table.inv-table2 td{padding:9px 0;font-size:13px;border-bottom:1px solid var(--border);vertical-align:top}
+table.inv-table2 tr:last-child td{border-bottom:none}
+table.inv-table3{width:100%;border-collapse:collapse;margin-bottom:4px}
+table.inv-table3 thead th{background:var(--bg2)}
+table.inv-table3 th{text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:.4px;color:var(--text2);padding:6px 10px 6px 8px;border-bottom:2px solid var(--border2);font-weight:700;white-space:nowrap}
+table.inv-table3 td{padding:9px 10px 9px 8px;font-size:13px;border-bottom:1px solid var(--border);vertical-align:top;white-space:nowrap}
+table.inv-table3 th:first-child,table.inv-table3 td:first-child{white-space:normal;font-weight:600}
+table.inv-table3 th:nth-child(2),table.inv-table3 td:nth-child(2){white-space:normal}
+table.inv-table3 th:last-child,table.inv-table3 td:last-child{text-align:right;padding-right:8px;font-weight:600}
+table.inv-table3 tr:last-child td{border-bottom:none}
+@media(max-width:520px){table.inv-table3{display:block;overflow-x:auto}}
+.inv-item-title{font-weight:600}
+.inv-item-sub{font-size:11px;color:var(--text2);margin-top:2px}
+.inv-tag{display:inline-block;font-size:9px;font-weight:700;padding:1.5px 6px;border-radius:5px;background:var(--brand-light);color:var(--brand);margin-left:6px;vertical-align:1px;text-transform:uppercase;white-space:nowrap}
+.inv-subtotal-line{display:flex;justify-content:space-between;font-size:12.5px;font-weight:700;padding:8px 0 2px;color:var(--text)}
+.inv-summary-wrap{display:flex;justify-content:flex-end;margin-top:18px}
+.inv-summary{width:300px;background:var(--bg2);border:1px solid var(--border);border-radius:9px;padding:14px 16px}
+.inv-summary .finance-row{font-size:13px;padding:4px 0}
+.inv-summary hr{border:none;border-top:1px solid var(--border);margin:8px 0}
+.inv-summary .grand{display:flex;justify-content:space-between;font-size:16px;font-weight:800;padding:2px 0}
+.inv-summary .grand span:last-child{color:var(--brand)}
+.inv-footer{margin-top:26px;padding-top:16px;border-top:1px solid var(--border)}
+details.inv-collapse{margin-bottom:4px}
+details.inv-collapse summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:12px;background:var(--brand-light);border:1px solid rgba(231,113,37,.3);border-radius:9px;padding:11px 14px;user-select:none}
+details.inv-collapse summary::-webkit-details-marker{display:none}
+.inv-collapse-title{font-weight:700;font-size:13px;color:var(--brand)}
+.inv-collapse-dates{font-size:13px;font-weight:600;color:var(--text)}
+.inv-collapse-count{font-size:11px;color:var(--text2);margin-left:auto}
+.inv-collapse-chev{font-size:12px;color:var(--brand);transition:transform .15s}
+details.inv-collapse[open] .inv-collapse-chev{transform:rotate(180deg)}
+.inv-collapse-body{padding-top:12px}
+details.inv-collapse-sub{margin-bottom:8px}
+details.inv-collapse-sub summary{background:var(--bg2);border:1px solid var(--border2);padding:9px 12px}
+details.inv-collapse-sub .inv-collapse-title{color:var(--text);font-size:12.5px}
+details.inv-collapse-sub .inv-collapse-count{color:var(--brand);font-weight:700;font-size:12.5px}
+details.inv-collapse-sub .inv-collapse-body{padding:10px 4px 4px}
 .spin{display:inline-block;width:22px;height:22px;border:2.5px solid rgba(231,113,37,.2);border-top:2.5px solid var(--brand);border-radius:50%;animation:spin .7s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 .center{display:flex;justify-content:center;align-items:center;padding:3rem}
@@ -244,6 +291,9 @@ const BASE='appND9kP55cvkDX7V';
 const MASTER='tblodAjjJy8FBQAY7';
 const SUBTRIPS='tblCwuKfuZCMsz6Wb';
 const SERVICES='tblR8W6GPEI6ucW6e';
+const PROPERTIES='tblYsjDyc84qS0cSw';
+const PROP_NAME_FIELD='fldwY6M40Aihct6Br';
+const PAYMENTS='tblUl7lKOFznr9UCG';
 
 // Field IDs (Master Trips)
 const MF = {
@@ -254,11 +304,20 @@ const MF = {
 };
 // Field IDs (Services)
 const SF = { type:'fldwGhC8ScpRoFqPe', amount:'fldrXFS8PuieuNTEZ', date:'fldTjRzfIXRmOkany',
-  notes:'flde1teOe6CB9CjDp', master:'fldxJNjOePrgsgxvT', subtrip:'fldUGtwNfMtV2rbIK' };
+  notes:'flde1teOe6CB9CjDp', master:'fldxJNjOePrgsgxvT', subtrip:'fldUGtwNfMtV2rbIK',
+  paidAmt:'fldMAB8bnkQCkdXuk', balance:'fldnHm2S1qY8a8N5e', status:'fldKbGhbAb2aU3Jcl',
+  dueDate:'fldDu5gVQjL8AJQ3F', paidDate:'fldU2CGWYjnPcmTPM' };
+const SERVICE_STATUSES=['Not paid','Partially paid','Fully paid'];
 // Field IDs (Subtrips)
 const STF = { master:'fldPuAJogpRvHVblT', checkin:'fldViIRqGQ2QpFva2', checkout:'fld3g7BsKfSKG6V6P',
   nights:'fld8CK9tEiVvtlZvs', cost:'fldTP8hclBGrAqIT8', daterange:'fldn4axd6A8vPJ0Fe',
-  property:'fldYbRP4tr1rLVBNG' };
+  property:'fldk9pkb5HJ7YA9os', roomLink:'fldVkxWxTOJCG5GAe' };
+// Field IDs (Payments)
+const PF = { tripId:'fldmoGGyORZRWCRY4', amount:'fldK9LLQTNrCjnOho', date:'fld6Dey7IjlBcNwmc',
+  type:'fld3PsjbLZSzBdTmI', method:'fldzyhrM5UiwIoSPv', notes:'fld9HIcgaTwq0Gp0T', signed:'fld4RD0At59DRzCqX',
+  subtripId:'fldiem9MtuLBFINeI' };
+const PAYMENT_TYPES=['Reservation Deposit','Installment','Balance on Arrival','Security Deposit','Refund'];
+const PAYMENT_METHODS=['Bank Transfer','Cash','Card','Crypto','Other'];
 
 const STAGES=['Inquiry','Sent for pricing','Price calculation done','Price sent to customer','Invoice to be prepared','Sent Invoice','Paid and confirmed','Checked-In','Trip completed'];
 const ALL_STAGES=[...STAGES,'Dead','Trip cancelled','Trip dates changed'];
@@ -303,21 +362,44 @@ async function getTripLinks(tripId){
     return { svcIds:linkIds(f[MF.services]), subIds:linkIds(f[MF.subtrips]) };
   }catch(e){console.warn('getTripLinks',e);return{svcIds:[],subIds:[]};}
 }
+// Cached list of all properties/rooms, used to pick the Room number when adding an extension
+let propertiesCache=null;
+async function loadProperties(){
+  if(propertiesCache) return propertiesCache;
+  const out=[];let offset='';
+  do{
+    let url=BASE+'/'+PROPERTIES+'?pageSize=100&returnFieldsByFieldId=true&fields[]='+encodeURIComponent(PROP_NAME_FIELD);
+    if(offset) url+='&offset='+offset;
+    const res=await at(url);
+    (res.records||[]).forEach(r=>{const n=r.fields?.[PROP_NAME_FIELD];if(n) out.push({id:r.id,name:n});});
+    offset=res.offset||'';
+  }while(offset);
+  out.sort((a,b)=>a.name.localeCompare(b.name));
+  propertiesCache=out;
+  return out;
+}
 
 // ── Helpers ──
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 function fmtThb(n){return '฿'+Number(n||0).toLocaleString();}
 function fmtDate(d){if(!d)return '—';const p=String(d).split('T')[0].split('-');return p.length===3?p[2]+'/'+p[1]+'/'+p[0]:d;}
+function fmtDateShort(d){if(!d)return '?';const p=String(d).split('T')[0].split('-');if(p.length!==3)return d;const months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];return Number(p[2])+' '+months[Number(p[1])-1];}
 function guestName(f){
   const fn=Array.isArray(f['First Name (from CRM contact)'])?f['First Name (from CRM contact)'][0]:'';
   const ln=Array.isArray(f['Last Name (from CRM contact)'])?f['Last Name (from CRM contact)'][0]:'';
-  return (fn+' '+ln).trim()||f['Guest/s']||'Guest';
+  return (fn+' '+ln).trim()||'Guest';
 }
 function pillHtml(stage){const c=STAGE_COLOR[stage]||'#9ca3af';return '<span class="pill" style="background:'+c+'18;color:'+c+';border:1px solid '+c+'35">'+esc(stage)+'</span>';}
 function svcType(s){const v=s.fields?.[SF.type];return (v&&typeof v==='object')?v.name:(v||'Service');}
 function svcAmt(s){return Number(s.fields?.[SF.amount]||0);}
 function svcDate(s){return s.fields?.[SF.date];}
 function svcSubIds(s){return linkIds(s.fields?.[SF.subtrip]);}
+function svcStatus(s){const v=s.fields?.[SF.status];return (v&&typeof v==='object')?v.name:(v||'Not paid');}
+function svcPaidAmt(s){return Number(s.fields?.[SF.paidAmt]||0);}
+function svcBalance(s){const v=s.fields?.[SF.balance];return v!=null?Number(v):(svcAmt(s)-svcPaidAmt(s));}
+function svcDueDate(s){return s.fields?.[SF.dueDate];}
+function svcPaidDate(s){return s.fields?.[SF.paidDate];}
+function svcStatusColor(st){return st==='Fully paid'?'#10b981':st==='Partially paid'?'#f59e0b':'#ef4444';}
 function subCheckin(sub){return sub.fields?.[STF.checkin];}
 function subCheckout(sub){return sub.fields?.[STF.checkout];}
 function subNights(sub){return sub.fields?.[STF.nights];}
@@ -327,6 +409,22 @@ function subProperty(sub){
   if(Array.isArray(v)) return v.map(x=>typeof x==='object'?x.name:x).join(', ');
   return v||'';
 }
+// ── Payments ──
+async function fetchPayments(tripId){
+  try{
+    const formula="{Trip Record ID}='"+tripId+"'";
+    const url=PAYMENTS+'?returnFieldsByFieldId=true&filterByFormula='+encodeURIComponent(formula);
+    const res=await at(BASE+'/'+url);
+    return res.records||[];
+  }catch(e){console.warn('fetchPayments',e);return[];}
+}
+function payAmt(p){return Number(p.fields?.[PF.amount]||0);}
+function paySignedAmt(p){const v=p.fields?.[PF.signed];return v!=null?Number(v):payAmt(p);}
+function payDate(p){return p.fields?.[PF.date];}
+function payType(p){const v=p.fields?.[PF.type];return (v&&typeof v==='object')?v.name:(v||'');}
+function payMethod(p){const v=p.fields?.[PF.method];return (v&&typeof v==='object')?v.name:(v||'');}
+function payNotes(p){return p.fields?.[PF.notes]||'';}
+function paySubtripId(p){return p.fields?.[PF.subtripId]||'';}
 
 // ── Token ──
 async function connectToken(){
@@ -360,7 +458,7 @@ async function loadTrips(){
   document.getElementById('trip-count').textContent='Loading…';
   document.getElementById('view-container').innerHTML='<div class="center"><div class="spin"></div></div>';
   try{
-    const fieldNames=['Inquiry status','Arrival Date','Checkout Date','Agreed cost','Booking Channel','Channel contact','Contact Channel (from CRM contact)','Property (for automations)','First Name (from CRM contact)','Last Name (from CRM contact)','Customer ID (from CRM contact)','Security deposit','Advance to be paid','Actual advance paid by the customer','TOTAL AMOUNT PAYABLE ON ARRIVAL : ','Balance Due','Total Nights','Number of Guests','Guest/s','Email Id','City (from Operation region) (from Building) (from Property)'];
+    const fieldNames=['Inquiry status','Arrival Date','Checkout Date','Agreed cost','Booking Channel','Channel contact','Contact Channel (from CRM contact)','Property (for automations)','First Name (from CRM contact)','Last Name (from CRM contact)','Customer ID (from CRM contact)','Security deposit','Advance to be paid','Actual advance paid by the customer','TOTAL AMOUNT PAYABLE ON ARRIVAL : ','Balance Due','Total Nights','Number of Guests','Email Id','City (from Operation region) (from Building) (from Property)'];
     // Only pull trips arriving in 2026 or later — keeps the load fast and complete for current years
     const formula = "IS_AFTER({Arrival Date}, '2025-12-31')";
     const records=[];let offset='';
@@ -374,6 +472,7 @@ async function loadTrips(){
       offset=res.offset||'';
     }while(offset && records.length<5000);
     allTrips=records;
+    tripsLoaded=true;
     document.getElementById('trip-count').textContent=records.length+' trips loaded';
     updateHomeCounts();
     initYearFilter();
@@ -381,6 +480,18 @@ async function loadTrips(){
   }catch(e){
     document.getElementById('view-container').innerHTML='<div style="padding:2rem;color:#ef4444;text-align:center">Error: '+esc(e.message)+'</div>';
     document.getElementById('trip-count').textContent='Error';
+    document.querySelectorAll('.home-card-stat[data-count] .stat-num').forEach(n=>n.textContent='—');
+    showToast('Could not load trips: '+e.message);
+    const msg=String(e.message||'').toLowerCase();
+    if(msg.includes('authentication')||msg.includes('unauthorized')||msg.includes('401')||msg.includes('invalid')){
+      // Saved token is no longer valid — send the user back to reconnect
+      localStorage.removeItem('ms_token');TOKEN='';
+      document.getElementById('home-screen').style.display='none';
+      document.getElementById('app').style.display='none';
+      document.getElementById('token-screen').style.display='block';
+      const te=document.getElementById('token-error');
+      if(te){te.textContent='Your saved Airtable token is no longer valid — please paste a new one.';te.style.display='block';}
+    }
   }
 }
 
@@ -395,8 +506,8 @@ function initYearFilter(){
 
 function tripCity(f){
   let v = f['City (from Operation region) (from Building) (from Property)'];
-  if(Array.isArray(v)) v = v.join(' ');
-  return (v||'').toLowerCase();
+  if(Array.isArray(v)) v = v.map(x=>(x&&typeof x==='object')?(x.name||x.value||''):x).join(' ');
+  return String(v||'').toLowerCase().trim();
 }
 
 function getFiltered(){
@@ -411,7 +522,7 @@ function getFiltered(){
     if(q && !name.includes(q) && !prop.includes(q)) return false;
     if(year && (f['Arrival Date']||'').split('-')[0]!==year) return false;
     if(stage && (f['Inquiry status']||'Inquiry')!==stage) return false;
-    if(city && tripCity(f)!==city) return false;
+    if(city && !tripCity(f).includes(city)) return false;
     return true;
   });
 }
@@ -513,28 +624,31 @@ async function openTrip(id){
   const info=[['Property',f['Property (for automations)']||'—'],['Channel',f['Booking Channel']||'—'],['Arrival',fmtDate(f['Arrival Date'])],['Checkout',fmtDate(f['Checkout Date'])],['Nights',f['Total Nights']||'—'],['Guests',f['Number of Guests']||'—']];
   const fin=[['Agreed cost',fmtThb(f['Agreed cost'])],['Security deposit',fmtThb(f['Security deposit'])],['Advance to be paid',fmtThb(f['Advance to be paid'])],['Advance paid',fmtThb(f['Actual advance paid by the customer'])]];
   const body=
-    '<div class="tabs"><button class="tab active" data-tab="overview">Overview</button><button class="tab" data-tab="subtrips">Extensions</button><button class="tab" data-tab="services">Charges</button></div>'+
+    '<div class="tabs"><button class="tab active" data-tab="overview">Overview</button><button class="tab" data-tab="subtrips">Extensions</button><button class="tab" data-tab="services">Charges</button><button class="tab" data-tab="payments">Payments</button></div>'+
     '<div id="tab-overview">'+
       '<div style="display:grid;grid-template-columns:1fr auto;gap:10px;align-items:end;margin-bottom:12px"><div class="field"><label>Pipeline stage</label><select id="stage-sel" onchange="changeStage(\''+id+'\',this.value)">'+stageOpts+'</select></div>'+(idx>=0&&idx<STAGES.length-1?'<button class="btn btn-solid" onclick="advanceTrip(\''+id+'\',\''+esc(STAGES[idx+1])+'\')">Advance →</button>':'')+'</div>'+
       '<div id="stage-msg" style="font-size:12px;color:var(--brand);min-height:16px;margin-bottom:8px"></div>'+
       '<div class="info-grid">'+info.map(a=>'<div class="info-row"><span class="lbl">'+a[0]+'</span><span class="val">'+esc(String(a[1]))+'</span></div>').join('')+'</div>'+
-      '<div class="finance-box"><div class="finance-title">Financials</div>'+fin.map(a=>'<div class="finance-row"><span class="lbl">'+a[0]+'</span><span>'+a[1]+'</span></div>').join('')+'<hr class="finance-divider"><div class="finance-total"><span>Total on arrival</span><span>'+fmtThb(f['TOTAL AMOUNT PAYABLE ON ARRIVAL : '])+'</span></div></div>'+
+      '<div class="finance-box"><div class="finance-title">Financials</div>'+fin.map(a=>'<div class="finance-row"><span class="lbl">'+a[0]+'</span><span>'+a[1]+'</span></div>').join('')+'<hr class="finance-divider"><div class="finance-total"><span>Total on arrival</span><span>'+fmtThb(f['TOTAL AMOUNT PAYABLE ON ARRIVAL : '])+'</span></div><hr class="finance-divider"><div class="finance-row"><span class="lbl">Paid to date</span><span id="ov-paid-total">…</span></div><div class="finance-total"><span>Balance due</span><span id="ov-balance-due">…</span></div></div>'+
       '<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn btn-outline" onclick="openAddSubtrip(\''+id+'\')">+ Extension</button><button class="btn btn-outline" onclick="openAddService(\''+id+'\',\'\')">+ Service charge</button><button class="btn btn-outline" onclick="openEditFinancials(\''+id+'\')">✏️ Edit financials</button><button class="btn btn-solid" onclick="openInvoice(\''+id+'\')">View invoice</button></div>'+
     '</div>'+
     '<div id="tab-subtrips" style="display:none"><div id="subtrips-content"><div class="center"><div class="spin"></div></div></div><div style="margin-top:10px"><button class="btn btn-solid" onclick="openAddSubtrip(\''+id+'\')">+ Add extension</button></div></div>'+
-    '<div id="tab-services" style="display:none"><div id="services-content"><div class="center"><div class="spin"></div></div></div><div style="margin-top:10px"><button class="btn btn-solid" onclick="openAddService(\''+id+'\',\'\')">+ Add charge</button></div></div>';
+    '<div id="tab-services" style="display:none"><div id="services-content"><div class="center"><div class="spin"></div></div></div><div style="margin-top:10px"><button class="btn btn-solid" onclick="openAddService(\''+id+'\',\'\')">+ Add charge</button></div></div>'+
+    '<div id="tab-payments" style="display:none"><div id="payments-content"><div class="center"><div class="spin"></div></div></div><div style="margin-top:10px"><button class="btn btn-solid" onclick="openAddPayment(\''+id+'\')">+ Record payment</button></div></div>';
   showModal(body, guestName(f));
   document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>switchTab(b.dataset.tab));
   loadLinked(trip);
 }
 function switchTab(tab){
-  ['overview','subtrips','services'].forEach(t=>{const el=document.getElementById('tab-'+t);if(el)el.style.display=t===tab?'block':'none';});
+  ['overview','subtrips','services','payments'].forEach(t=>{const el=document.getElementById('tab-'+t);if(el)el.style.display=t===tab?'block':'none';});
   document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));
 }
 async function loadLinked(trip){
   const links=await getTripLinks(trip.id);
-  const [subs,svcs]=await Promise.all([fetchByIds(SUBTRIPS,links.subIds),fetchByIds(SERVICES,links.svcIds)]);
+  const [subs,svcs,pays]=await Promise.all([fetchByIds(SUBTRIPS,links.subIds),fetchByIds(SERVICES,links.svcIds),fetchPayments(trip.id)]);
   const subIds=subs.map(s=>s.id);
+  const f=trip.fields||{};
+  setCurrentTripStays(trip,subs);
   // subtrips
   const subEl=document.getElementById('subtrips-content');
   if(subEl){
@@ -544,14 +658,58 @@ async function loadLinked(trip){
       return '<div class="sub-card"><div class="sub-header"><span style="font-weight:600">Extension '+(i+1)+'</span><button class="btn btn-outline btn-sm" onclick="openAddService(\''+trip.id+'\',\''+sub.id+'\')">+ Charge</button></div><div class="info-grid">'+rows.map(a=>'<div class="info-row"><span class="lbl">'+a[0]+'</span><span class="val">'+esc(String(a[1]))+'</span></div>').join('')+'</div></div>';
     }).join(''):'<div style="text-align:center;padding:1.5rem;color:var(--text2)">No extensions yet</div>';
   }
-  // services
+  // services — grouped per trip (master + each extension)
   const svcEl=document.getElementById('services-content');
   if(svcEl){
-    svcEl.innerHTML=svcs.length?svcs.map(s=>{
-      const onSub=svcSubIds(s).length>0;
-      return '<div class="svc-row"><div><div class="svc-name">'+esc(svcType(s))+(onSub?' <span style="font-size:10px;color:#8b5cf6">(extension)</span>':'')+'</div><div class="svc-meta">'+(svcDate(s)?fmtDate(svcDate(s)):'')+(s.fields?.[SF.notes]?' · '+esc(s.fields[SF.notes]):'')+'</div></div><div class="svc-right"><span style="font-weight:600">'+fmtThb(svcAmt(s))+'</span></div></div>';
-    }).join(''):'<div style="text-align:center;padding:1.5rem;color:var(--text2)">No charges yet</div>';
+    const svcRowHtmlFor=(s,subId)=>{
+      const status=svcStatus(s);
+      const statusDate=status==='Fully paid'?svcPaidDate(s):svcDueDate(s);
+      const statusLabel=status==='Fully paid'?'Paid':(status==='Partially paid'?'Partial':'To pay');
+      const balanceLeft=svcBalance(s);
+      return '<div class="svc-row"><div><div class="svc-name">'+esc(svcType(s))+' <span class="pill" style="background:'+svcStatusColor(status)+'18;color:'+svcStatusColor(status)+';border:1px solid '+svcStatusColor(status)+'35">'+statusLabel+'</span></div><div class="svc-meta">'+(svcDate(s)?fmtDate(svcDate(s)):'')+(statusDate?' · '+(status==='Fully paid'?'paid ':'due ')+fmtDate(statusDate):'')+(s.fields?.[SF.notes]?' · '+esc(s.fields[SF.notes]):'')+'</div></div><div class="svc-right"><span style="font-weight:600">'+fmtThb(svcAmt(s))+'</span>'+(balanceLeft>0?'<button class="btn btn-outline btn-sm" onclick="openMarkPaid(\''+s.id+'\')">Mark as paid</button>':'')+'<button class="btn btn-ghost btn-sm" onclick="openEditService(\''+trip.id+'\',\''+(subId||'')+'\',\''+s.id+'\')">Edit</button></div></div>';
+    };
+    const masterList=svcs.filter(s=>!svcSubIds(s).some(id=>subIds.includes(id)));
+    const groupHeader=(label,addSubId)=>'<div style="display:flex;justify-content:space-between;align-items:center;margin:14px 0 4px"><span style="font-size:11px;font-weight:700;letter-spacing:.5px;color:var(--brand);text-transform:uppercase">'+label+'</span><button class="btn btn-outline btn-sm" onclick="openAddService(\''+trip.id+'\',\''+(addSubId||'')+'\')">+ Charge</button></div>';
+    let svcHtml=groupHeader((f['Property (for automations)']?esc(f['Property (for automations)']):'Master trip'),'');
+    svcHtml+=masterList.length?masterList.map(s=>svcRowHtmlFor(s,'')).join(''):'<div style="font-size:12px;color:var(--text2);padding:6px 0">No charges yet</div>';
+    subs.forEach((sub,i)=>{
+      const list=svcs.filter(s=>svcSubIds(s).includes(sub.id));
+      const propName=subProperty(sub);
+      svcHtml+=groupHeader('Extension '+(i+1)+(propName?' — '+esc(propName):''),sub.id);
+      svcHtml+=list.length?list.map(s=>svcRowHtmlFor(s,sub.id)).join(''):'<div style="font-size:12px;color:var(--text2);padding:6px 0">No charges yet</div>';
+    });
+    svcEl.innerHTML=svcHtml;
   }
+  // payments — grouped per trip (master + each extension)
+  const totalSubCost=subs.reduce((a,s)=>a+subCost(s),0);
+  const fullyPaidSvcTotal=svcs.filter(s=>svcStatus(s)==='Fully paid').reduce((a,s)=>a+svcAmt(s),0);
+  const grandTotal=Number(f['Agreed cost']||0)+totalSubCost+fullyPaidSvcTotal+Number(f['Security deposit']||0);
+  const sortedPays=pays.slice().sort((a,b)=>String(payDate(a)||'').localeCompare(String(payDate(b)||'')));
+  const payRowHtml=(p)=>{
+    const isRefund=payType(p)==='Refund';
+    return '<div class="svc-row"><div><div class="svc-name">'+esc(payType(p)||'Payment')+(payMethod(p)?' <span style="font-size:11px;color:var(--text2);font-weight:400">· '+esc(payMethod(p))+'</span>':'')+'</div><div class="svc-meta">'+(payDate(p)?fmtDate(payDate(p)):'—')+(payNotes(p)?' · '+esc(payNotes(p)):'')+'</div></div><div class="svc-right"><span style="font-weight:600;color:'+(isRefund?'var(--red)':'inherit')+'">'+(isRefund?'−':'')+fmtThb(Math.abs(payAmt(p)))+'</span><button class="btn btn-ghost btn-sm" onclick="openEditPayment(\''+trip.id+'\',\''+p.id+'\')">Edit</button></div></div>';
+  };
+  const payGroupHeader=(label)=>'<div style="margin:14px 0 4px"><span style="font-size:11px;font-weight:700;letter-spacing:.5px;color:var(--brand);text-transform:uppercase">'+label+'</span></div>';
+  const masterPays=sortedPays.filter(p=>!paySubtripId(p)||!subIds.includes(paySubtripId(p)));
+  let paysHtml=payGroupHeader(f['Property (for automations)']?esc(f['Property (for automations)']):'Master trip');
+  paysHtml+=masterPays.length?masterPays.map(payRowHtml).join(''):'<div style="font-size:12px;color:var(--text2);padding:6px 0">No payments yet</div>';
+  if(masterPays.length){const t=masterPays.reduce((a,p)=>a+paySignedAmt(p),0);paysHtml+='<div style="display:flex;justify-content:space-between;font-size:12px;font-weight:600;padding:6px 0"><span>Subtotal</span><span>'+fmtThb(t)+'</span></div>';}
+  subs.forEach((sub,i)=>{
+    const list=sortedPays.filter(p=>paySubtripId(p)===sub.id);
+    const propName=subProperty(sub);
+    paysHtml+=payGroupHeader('Extension '+(i+1)+(propName?' — '+esc(propName):''));
+    paysHtml+=list.length?list.map(payRowHtml).join(''):'<div style="font-size:12px;color:var(--text2);padding:6px 0">No payments yet</div>';
+    if(list.length){const t=list.reduce((a,p)=>a+paySignedAmt(p),0);paysHtml+='<div style="display:flex;justify-content:space-between;font-size:12px;font-weight:600;padding:6px 0"><span>Subtotal</span><span>'+fmtThb(t)+'</span></div>';}
+  });
+  const totalPaid=pays.reduce((a,p)=>a+paySignedAmt(p),0)+fullyPaidSvcTotal;
+  const balanceDue=grandTotal-totalPaid;
+  const payEl=document.getElementById('payments-content');
+  if(payEl){
+    payEl.innerHTML=paysHtml+
+      '<div class="finance-box" style="margin-top:12px"><div class="finance-row"><span class="lbl">Total due</span><span>'+fmtThb(grandTotal)+'</span></div><div class="finance-row"><span class="lbl">Total paid</span><span>'+fmtThb(totalPaid)+'</span></div><hr class="finance-divider"><div class="finance-total"><span>Balance due</span><span>'+fmtThb(balanceDue)+'</span></div></div>';
+  }
+  const ptEl=document.getElementById('ov-paid-total');if(ptEl)ptEl.textContent=fmtThb(totalPaid);
+  const bdEl=document.getElementById('ov-balance-due');if(bdEl)bdEl.textContent=fmtThb(balanceDue);
 }
 async function changeStage(id,newStage){
   const m=document.getElementById('stage-msg');if(m)m.textContent='Saving…';
@@ -576,10 +734,10 @@ async function openInvoice(tripId){
   const trip=allTrips.find(t=>t.id===tripId);
   if(!trip) return;
   const f=trip.fields||{};
-  let subs=[],svcs=[];
+  let subs=[],svcs=[],pays=[];
   try{
     const links=await getTripLinks(tripId);
-    [subs,svcs]=await Promise.all([fetchByIds(SUBTRIPS,links.subIds),fetchByIds(SERVICES,links.svcIds)]);
+    [subs,svcs,pays]=await Promise.all([fetchByIds(SUBTRIPS,links.subIds),fetchByIds(SERVICES,links.svcIds),fetchPayments(tripId)]);
   }catch(e){console.warn(e);}
 
   const subIds=subs.map(s=>s.id);
@@ -587,64 +745,121 @@ async function openInvoice(tripId){
   const subSvcsFor=(subId)=>svcs.filter(s=>svcSubIds(s).includes(subId));
   const totalSubCost=subs.reduce((a,s)=>a+subCost(s),0);
   const totalSvcCost=svcs.reduce((a,s)=>a+svcAmt(s),0);
+  const fullyPaidTotal=svcs.filter(s=>svcStatus(s)==='Fully paid').reduce((a,s)=>a+svcAmt(s),0);
   // App-calculated totals from line items
-  const grandRoom=Number(f['Agreed cost']||0)+totalSubCost;
+  const roomCost=Number(f['Agreed cost']||0);
+  const grandRoom=roomCost+totalSubCost;
   const secDeposit=Number(f['Security deposit']||0);
-  const advancePaid=Number(f['Actual advance paid by the customer']||0);
-  const grandTotal=grandRoom+totalSvcCost+secDeposit;
-  const payableOnArrival=grandTotal-advancePaid;
+  // Only FULLY PAID services/charges count toward the top-level total — outstanding or partially-paid charges stay visible in the itemized table but don't inflate the grand total or balance due
+  const grandTotal=grandRoom+fullyPaidTotal+secDeposit;
+  // Total received = the payment ledger (falls back to the legacy single field only if the ledger is empty) PLUS fully-paid service charges (which nets out against the grand total above)
+  const ledgerNet=pays.reduce((a,p)=>a+paySignedAmt(p),0);
+  const baseReceived=pays.length?ledgerNet:Number(f['Actual advance paid by the customer']||0);
+  const totalReceived=baseReceived+fullyPaidTotal;
+  const payableOnArrival=grandTotal-totalReceived;
+  const sortedPays=pays.slice().sort((a,b)=>String(payDate(a)||'').localeCompare(String(payDate(b)||'')));
 
-  const renderSvc=(list)=>{
-    if(!list.length) return '';
-    const t=list.reduce((a,s)=>a+svcAmt(s),0);
-    return '<tr><td colspan="2" style="font-size:11px;font-weight:700;letter-spacing:.5px;color:var(--text2);padding:8px 0 3px;text-transform:uppercase;border-top:1px solid var(--border)">Services &amp; Charges</td></tr>'+
-      list.map(s=>'<tr><td style="padding-left:14px;font-size:13px;color:var(--text2)">↳ '+esc(svcType(s))+(svcDate(s)?' <span style="font-size:11px;opacity:.7">('+fmtDate(svcDate(s))+')</span>':'')+'</td><td style="text-align:right;font-size:13px">'+fmtThb(svcAmt(s))+'</td></tr>').join('')+
-      '<tr style="border-top:1px solid var(--border)"><td style="padding-left:14px;font-weight:600;font-size:13px;padding-top:5px">Total services</td><td style="text-align:right;font-weight:600;font-size:13px;padding-top:5px">'+fmtThb(t)+'</td></tr>';
-  };
+  // ── Per-stay sections: each stay (master trip + each extension) gets its own accommodation line, its own charges table, and its own payments ──
+  const stays=[{subId:'',cost:roomCost,arr:f['Arrival Date'],dep:f['Checkout Date'],nights:f['Total Nights'],prop:f['Property (for automations)']||'',svcs:masterSvcs}];
+  subs.forEach(sub=>stays.push({subId:sub.id,cost:subCost(sub),arr:subCheckin(sub),dep:subCheckout(sub),nights:subNights(sub),prop:subProperty(sub)||'',svcs:subSvcsFor(sub.id)}));
+  const multiStay=stays.length>1;
+  const paysForStay=(stay)=>stay.subId?sortedPays.filter(p=>paySubtripId(p)===stay.subId):sortedPays.filter(p=>!paySubtripId(p)||!subIds.includes(paySubtripId(p)));
 
-  let rows='<tr class="inv-section-head"><td style="color:var(--brand)">MASTER TRIP</td><td style="text-align:right;font-size:12px;color:var(--text2)">'+fmtDate(f['Arrival Date'])+' → '+fmtDate(f['Checkout Date'])+'</td></tr>'+
-    '<tr><td>Room rental — '+(f['Total Nights']||'?')+' nights</td><td style="font-weight:600;text-align:right">'+fmtThb(f['Agreed cost'])+'</td></tr>'+
-    '<tr style="color:var(--text2)"><td>Security deposit</td><td style="text-align:right">'+fmtThb(f['Security deposit'])+'</td></tr>'+
-    '<tr style="border-top:1px solid var(--border)"><td style="font-weight:600;padding-top:5px">Total room cost</td><td style="font-weight:600;text-align:right;padding-top:5px">'+fmtThb(f['Agreed cost'])+'</td></tr>'+
-    renderSvc(masterSvcs)+
-    '<tr><td colspan="2"><hr class="inv-hr" style="margin-top:10px"></td></tr>';
+  const stayBlocks=stays.map((s,i)=>{
+    const label=(multiStay?('Trip '+(i+1)+' — '):'')+(s.prop?esc(s.prop):'Accommodation');
+    const paidHere=s.svcs.filter(x=>svcStatus(x)==='Fully paid').reduce((a,x)=>a+svcAmt(x),0);
+    const stayPays=paysForStay(s);
+    const stayReceived=stayPays.reduce((a,p)=>a+paySignedAmt(p),0);
+    let body='<table class="inv-table3"><thead><tr><th>Property</th><th>Check-in</th><th>Check-out</th><th>Nights</th><th>Amount</th></tr></thead><tbody>'+
+      '<tr><td>'+(s.prop?esc(s.prop):'Room Charges')+'</td><td>'+fmtDate(s.arr)+'</td><td>'+fmtDate(s.dep)+'</td><td>'+(s.nights||'?')+'</td><td>'+fmtThb(s.cost)+'</td></tr>'+
+      '</tbody></table>';
+    if(s.svcs.length){
+      body+='<div style="font-size:10px;font-weight:700;letter-spacing:.5px;color:#E77125;text-transform:uppercase;margin:10px 0 4px">Services &amp; Charges</div>'+
+        '<table class="inv-table3"><thead><tr><th>Service</th><th>Due/Charge Date</th><th>Status</th><th>Paid Date</th><th>Amount</th></tr></thead><tbody>'+
+        s.svcs.map(x=>svcRowHtmlUnified(x,null)).join('')+
+        '</tbody></table>';
+    }
+    if(stayPays.length){
+      body+='<div style="font-size:10px;font-weight:700;letter-spacing:.5px;color:#E77125;text-transform:uppercase;margin:10px 0 4px">Payments Received</div>'+
+        '<table class="inv-table3"><thead><tr><th>Type</th><th>Method</th><th>Date</th><th>Amount</th></tr></thead><tbody>'+
+        stayPays.map(p=>{
+          const isRefund=payType(p)==='Refund';
+          return '<tr><td>'+esc(payType(p)||'Payment')+'</td><td>'+(payMethod(p)?esc(payMethod(p)):'—')+'</td><td>'+(payDate(p)?fmtDate(payDate(p)):'—')+'</td><td'+(isRefund?' style="color:#ef4444"':'')+'>'+(isRefund?'−':'')+fmtThb(Math.abs(payAmt(p)))+'</td></tr>';
+        }).join('')+
+        '</tbody></table>';
+    }
+    body+='<div class="inv-subtotal-line"><span>Subtotal — room'+(s.svcs.length?' + paid charges':'')+'</span><span>'+fmtThb(s.cost+paidHere)+'</span></div>';
+    if(stayPays.length) body+='<div class="inv-subtotal-line" style="font-weight:400;color:var(--text2)"><span>Received against this trip</span><span>('+fmtThb(stayReceived)+')</span></div>';
+    // Each trip gets its own nested collapse bar
+    return '<details class="inv-collapse inv-collapse-sub">'+
+      '<summary><span class="inv-collapse-title">'+label+'</span>'+
+        '<span class="inv-collapse-dates">'+fmtDate(s.arr)+' → '+fmtDate(s.dep)+'</span>'+
+        '<span class="inv-collapse-count">'+fmtThb(s.cost)+'</span>'+
+        '<span class="inv-collapse-chev">▾</span></summary>'+
+      '<div class="inv-collapse-body">'+body+'</div>'+
+    '</details>';
+  }).join('');
 
-  subs.forEach((sub,si)=>{
-    const cost=subCost(sub);
-    const propName=subProperty(sub);
-    const label='EXTENSION '+(si+1);
-    rows+='<tr class="inv-section-head"><td style="color:var(--brand);padding-top:10px">'+label+'</td><td style="text-align:right;font-size:12px;color:var(--text2);padding-top:10px">'+fmtDate(subCheckin(sub))+' → '+fmtDate(subCheckout(sub))+'</td></tr>'+
-      '<tr><td>Room rental — '+(subNights(sub)||'?')+' nights</td><td style="font-weight:600;text-align:right">'+fmtThb(cost)+'</td></tr>'+
-      '<tr style="border-top:1px solid var(--border)"><td style="font-weight:600;padding-top:5px">Total room cost</td><td style="font-weight:600;text-align:right;padding-top:5px">'+fmtThb(cost)+'</td></tr>'+
-      renderSvc(subSvcsFor(sub.id))+
-      '<tr><td colspan="2"><hr class="inv-hr" style="margin-top:10px"></td></tr>';
-  });
-
-  rows+='<tr><td style="font-weight:600">Total room cost (all trips)</td><td style="font-weight:600;text-align:right">'+fmtThb(grandRoom)+'</td></tr>'+
-    '<tr><td style="font-weight:600">Total services &amp; charges</td><td style="font-weight:600;text-align:right">'+fmtThb(totalSvcCost)+'</td></tr>'+
-    '<tr style="color:var(--text2)"><td>Security deposit</td><td style="text-align:right">'+fmtThb(secDeposit)+'</td></tr>'+
-    '<tr><td colspan="2"><hr class="inv-hr"></td></tr>'+
-    '<tr><td style="font-weight:600">Grand total</td><td style="font-weight:600;text-align:right">'+fmtThb(grandTotal)+'</td></tr>'+
-    '<tr style="color:var(--text2)"><td>Advance paid</td><td style="text-align:right">('+fmtThb(advancePaid)+')</td></tr>'+
-    '<tr class="inv-total"><td>Total payable on arrival</td><td style="text-align:right">'+fmtThb(payableOnArrival)+'</td></tr>';
+  // Main collapsible wrapper: bar shows first check-in → final check-out and trip count; expands to reveal one bar per trip
+  const firstArr=stays[0].arr, lastDep=stays[stays.length-1].dep;
+  const extCount=stays.length-1;
+  const stayCountLabel=multiStay?(stays.length+' trips · '+extCount+' extension'+(extCount>1?'s':'')):'1 trip';
+  const staySectionsHtml=
+    '<details class="inv-collapse inv-collapse-main">'+
+      '<summary><span class="inv-collapse-title">'+(stays[0].prop?esc(stays[0].prop):'Stay')+(multiStay?' +'+extCount:'')+'</span>'+
+        '<span class="inv-collapse-dates">'+fmtDate(firstArr)+' → '+fmtDate(lastDep)+'</span>'+
+        '<span class="inv-collapse-count">'+stayCountLabel+'</span>'+
+        '<span class="inv-collapse-chev">▾</span></summary>'+
+      '<div class="inv-collapse-body">'+stayBlocks+'</div>'+
+    '</details>';
 
   const invNum='INV-'+tripId.slice(-6).toUpperCase()+'-'+new Date().getFullYear();
   const today=new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'});
   const html='<div id="inv-print">'+
-    '<div class="inv-header"><div style="display:flex;align-items:center;gap:12px"><img src="https://cdn.prod.website-files.com/67621c36e202add540e25339/6a2bc9b2651c27d1951530ee_Month%20Stayz%20Thailand.png" alt="Goldstar Empire" style="width:52px;height:52px;border-radius:8px;object-fit:cover" onerror="this.style.display=\'none\'"><div><div class="inv-brand">Goldstar Empire</div><div style="font-size:11px;color:#6b6b6b">GOLD STAR EMPIRE CO LTD</div></div></div><div class="inv-meta"><div class="inv-num">'+invNum+'</div><div>'+today+'</div></div></div>'+
-    '<div style="font-size:12px;color:#6b6b6b;line-height:1.7;margin-bottom:18px"><a href="https://monthstayzthailand.com/" target="_blank" style="color:#E77125;text-decoration:none">https://monthstayzthailand.com/</a><br>info@monthstayzthailand.com<br>+66 950720072<br>2/55 Moo4 soi Pasak11, T.Chengtalay, A.Talang, Phuket 83110, Thailand<br>Tax ID: 0205562014848</div>'+
-    '<div class="inv-parties"><div><div class="inv-party-label">Bill to</div><div class="inv-party-name">'+esc(guestName(f))+'</div>'+(f['Email Id']?'<div class="inv-party-sub">'+esc(f['Email Id'])+'</div>':'')+'</div><div class="inv-party-right"><div class="inv-party-label">Property</div><div class="inv-party-name" style="font-size:13px">'+esc(f['Property (for automations)']||'—')+'</div></div></div>'+
-    '<table class="inv-table"><tbody>'+rows+'</tbody></table>'+
-    '<div class="inv-note">Payment accepted via bank transfer, cash, or cryptocurrency.<br>Queries: info@monthstayzthailand.com</div>'+
+    '<div class="inv-co">'+
+      '<div style="display:flex;align-items:flex-start;gap:12px"><img src="https://cdn.prod.website-files.com/67621c36e202add540e25339/6a2bc9b2651c27d1951530ee_Month%20Stayz%20Thailand.png" alt="Goldstar Empire" style="width:48px;height:48px;border-radius:8px;object-fit:cover;flex-shrink:0" onerror="this.style.display=\'none\'">'+
+        '<div><div class="inv-co-name">Gold Star Empire Co., Ltd.</div><div class="inv-co-trade">Monthstayz Thailand</div>'+
+        '<div class="inv-co-detail">2/55 Moo4 Soi Pasak11, T.Chengtalay, A.Talang, Phuket 83110, Thailand<br>Tax ID: 0205562014848<br>+66 95 256 5005<br>info@monthstayzthailand.com<br><a href="https://www.monthstayzthailand.com/" target="_blank" rel="noopener">www.monthstayzthailand.com</a></div></div></div>'+
+      '<div><div class="inv-doc-title">INVOICE</div><div class="inv-doc-meta"><b>'+invNum+'</b><br>Date: '+today+'<br>Status: '+pillHtml(f['Inquiry status']||'Inquiry')+'</div></div>'+
+    '</div>'+
+    '<div class="inv-parties"><div><div class="inv-party-label">Bill to</div><div class="inv-party-name">'+esc(guestName(f))+'</div>'+(f['Email Id']?'<div class="inv-party-sub">'+esc(f['Email Id'])+'</div>':'')+'</div><div class="inv-party-right"><div class="inv-party-label">Property</div><div class="inv-party-name" style="font-size:13px">'+esc(f['Property (for automations)']||'—')+'</div><div class="inv-party-sub">'+fmtDate(f['Arrival Date'])+' → '+fmtDate(f['Checkout Date'])+'</div></div></div>'+
+
+    staySectionsHtml+
+
+    '<div class="inv-summary-wrap"><div class="inv-summary">'+
+      '<div class="finance-row"><span class="lbl">Accommodation</span><span>'+fmtThb(grandRoom)+'</span></div>'+
+      '<div class="finance-row"><span class="lbl">Services &amp; charges</span><span>'+fmtThb(fullyPaidTotal)+'</span></div>'+
+      '<div class="finance-row"><span class="lbl">Security deposit</span><span>'+fmtThb(secDeposit)+'</span></div>'+
+      '<hr>'+
+      '<div class="finance-row" style="font-weight:600"><span>Grand total</span><span>'+fmtThb(grandTotal)+'</span></div>'+
+      '<div class="finance-row"><span class="lbl">Paid to date</span><span>('+fmtThb(totalReceived)+')</span></div>'+
+      '<hr>'+
+      '<div class="grand"><span>Balance due</span><span>'+fmtThb(payableOnArrival)+'</span></div>'+
+    '</div></div>'+
+
+    '<div class="inv-footer"><div class="inv-note" style="margin-top:0">Payment accepted via bank transfer, cash, or cryptocurrency.<br>Queries: info@monthstayzthailand.com</div></div>'+
     '</div>'+
     '<div style="display:flex;gap:8px;margin-top:18px;padding-top:14px;border-top:1px solid var(--border)"><button class="btn btn-solid" onclick="printInvoice()">🖨 Print / Save PDF</button><button class="btn btn-ghost" onclick="closeModal()">Close</button></div>';
   showModal(html,'Invoice');
 }
+function svcRowHtmlUnified(s,propName){
+  const notes=s.fields?.[SF.notes];
+  const svcLabel=esc(svcType(s))+(notes?' <span style="color:var(--text2);font-weight:400">('+esc(notes)+')</span>':'');
+  const status=svcStatus(s);
+  const dueOrCharge=(status==='Fully paid'?svcDate(s):(svcDueDate(s)||svcDate(s)));
+  const statusLabel=status==='Fully paid'?'Paid':(status==='Partially paid'?'Partial':'To pay');
+  const c=svcStatusColor(status);
+  const pill='<span class="pill" style="background:'+c+'18;color:'+c+';border:1px solid '+c+'35">'+statusLabel+'</span>';
+  const propCell=propName===null?'':'<td>'+(propName?esc(propName):'—')+'</td>';
+  return '<tr>'+propCell+'<td>'+svcLabel+'</td><td>'+(dueOrCharge?fmtDate(dueOrCharge):'—')+'</td><td>'+pill+'</td><td>'+(svcPaidDate(s)?fmtDate(svcPaidDate(s)):'—')+'</td><td>'+fmtThb(svcAmt(s))+'</td></tr>';
+}
 function printInvoice(){
   const el=document.getElementById('inv-print');if(!el)return;
+  // Always print fully expanded — the collapse bar is a screen-only affordance
+  el.querySelectorAll('details.inv-collapse').forEach(d=>d.setAttribute('open',''));
   const w=window.open('','_blank');
   if(!w){showToast('Allow pop-ups to download the PDF');return;}
-  const pcss=`:root{--brand:#E77125;--text:#1a1a1a;--text2:#6b6b6b;--text3:#aaaaaa;--border:#e5e3dc;--bg2:#f8f7f5}*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}body{font-family:'Montserrat',Arial,sans-serif;padding:32px;max-width:620px;margin:auto;color:#1a1a1a;font-size:14px}.inv-brand{font-size:20px;font-weight:800;color:#E77125;letter-spacing:.5px}.inv-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px}.inv-meta{text-align:right;font-size:12px;color:#6b6b6b}.inv-meta .inv-num{font-weight:600;font-size:14px;color:#1a1a1a}.inv-parties{display:grid;grid-template-columns:1fr 1fr;gap:16px;background:#f8f7f5;border-radius:8px;padding:14px;margin-bottom:18px}.inv-party-label{font-size:10px;color:#6b6b6b;text-transform:uppercase;font-weight:700;margin-bottom:3px}.inv-party-name{font-weight:700}.inv-party-sub{font-size:12px;color:#6b6b6b}.inv-party-right{text-align:right}table{width:100%;border-collapse:collapse}td{padding:5px 0;font-size:13px;vertical-align:top}td:last-child{text-align:right}.inv-section-head td{font-size:11px;font-weight:700;padding-top:12px}hr,.inv-hr{border:none;border-top:1px solid #e5e3dc;width:100%;display:block}.inv-total td{font-size:15px;font-weight:700;padding:8px 0 4px}.inv-total td:last-child{color:#E77125}.inv-note{margin-top:18px;padding:12px;background:#f8f7f5;border-radius:8px;border-left:3px solid #E77125;font-size:12px;color:#6b6b6b;line-height:1.6}.pill{display:inline-block;padding:2px 8px;border-radius:12px;font-size:10px;font-weight:700}a{color:#E77125;text-decoration:none}@media print{body{padding:0}}`;
+  const pcss=`:root{--brand:#E77125;--text:#1a1a1a;--text2:#6b6b6b;--text3:#aaaaaa;--border:#e5e3dc;--border2:#d0cec7;--bg2:#f8f7f5}*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}body{font-family:'Montserrat',Arial,sans-serif;padding:36px;max-width:680px;margin:auto;color:#1a1a1a;font-size:13px;line-height:1.5}.inv-co{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;margin-bottom:22px;padding-bottom:18px;border-bottom:2px solid #E77125}.inv-co-name{font-size:17px;font-weight:800}.inv-co-trade{font-size:12px;color:#E77125;font-weight:700;margin-top:1px}.inv-co-detail{font-size:10.5px;color:#666;line-height:1.6;margin-top:8px;max-width:280px}.inv-doc-title{font-size:22px;font-weight:800;color:#E77125;text-align:right;letter-spacing:1.5px}.inv-doc-meta{font-size:11px;color:#666;text-align:right;margin-top:8px;line-height:1.8}.inv-doc-meta b{color:#1a1a1a}.inv-parties{display:grid;grid-template-columns:1fr 1fr;gap:16px;background:#f8f7f5;border-radius:8px;padding:14px;margin-bottom:20px}.inv-party-label{font-size:9.5px;color:#666;text-transform:uppercase;letter-spacing:.4px;font-weight:700;margin-bottom:3px}.inv-party-name{font-weight:700;font-size:13px}.inv-party-sub{font-size:11px;color:#666}.inv-party-right{text-align:right}.inv-section-label{font-size:10.5px;font-weight:700;letter-spacing:1px;color:#E77125;text-transform:uppercase;margin:20px 0 8px;padding-bottom:5px;border-bottom:1px solid #d0cec7}table.inv-table2{width:100%;border-collapse:collapse}table.inv-table2 th{text-align:left;font-size:9.5px;text-transform:uppercase;letter-spacing:.4px;color:#666;padding:0 0 6px;border-bottom:1px solid #d0cec7;font-weight:700}table.inv-table2 th:last-child,table.inv-table2 td:last-child{text-align:right}table.inv-table2 td{padding:8px 0;font-size:12.5px;border-bottom:1px solid #e5e3dc;vertical-align:top}table.inv-table2 tr:last-child td{border-bottom:none}table.inv-table3{width:100%;border-collapse:collapse}table.inv-table3 thead th{background:#f8f7f5}table.inv-table3 th{text-align:left;font-size:9.5px;text-transform:uppercase;letter-spacing:.4px;color:#666;padding:6px 10px 6px 8px;border-bottom:2px solid #d0cec7;font-weight:700;white-space:nowrap}table.inv-table3 td{padding:8px 10px 8px 8px;font-size:12.5px;border-bottom:1px solid #e5e3dc;vertical-align:top;white-space:nowrap}table.inv-table3 th:first-child,table.inv-table3 td:first-child{white-space:normal;font-weight:700}table.inv-table3 th:nth-child(2),table.inv-table3 td:nth-child(2){white-space:normal}table.inv-table3 th:last-child,table.inv-table3 td:last-child{text-align:right;padding-right:8px;font-weight:700}table.inv-table3 tr:last-child td{border-bottom:none}.inv-item-title{font-weight:700}.inv-item-sub{font-size:10.5px;color:#666;margin-top:2px}.inv-tag{display:inline-block;font-size:8.5px;font-weight:700;padding:1.5px 6px;border-radius:5px;background:#E7712518;color:#E77125;margin-left:6px;text-transform:uppercase}.inv-subtotal-line{display:flex;justify-content:space-between;font-size:12px;font-weight:700;padding:8px 0 2px}.inv-summary-wrap{display:flex;justify-content:flex-end;margin-top:16px}.inv-summary{width:280px;background:#f8f7f5;border:1px solid #e5e3dc;border-radius:9px;padding:14px 16px}.finance-row{display:flex;justify-content:space-between;font-size:12.5px;padding:4px 0}.finance-row .lbl{color:#666}.inv-summary hr{border:none;border-top:1px solid #e5e3dc;margin:8px 0}.grand{display:flex;justify-content:space-between;font-size:15px;font-weight:800}.grand span:last-child{color:#E77125}.inv-footer{margin-top:24px;padding-top:14px;border-top:1px solid #e5e3dc}.inv-note{padding:12px;background:#f8f7f5;border-radius:8px;border-left:3px solid #E77125;font-size:11px;color:#666;line-height:1.6}.pill{display:inline-block;padding:2px 8px;border-radius:12px;font-size:9.5px;font-weight:700}a{color:#E77125;text-decoration:none}details.inv-collapse-main>summary{display:none}details.inv-collapse-main>.inv-collapse-body{display:block;padding-top:0}details.inv-collapse-sub{margin-bottom:10px}details.inv-collapse-sub>summary{display:flex;align-items:center;gap:12px;list-style:none;background:#f8f7f5;border:1px solid #d0cec7;border-radius:8px;padding:8px 12px;margin:14px 0 8px}details.inv-collapse-sub>summary::-webkit-details-marker{display:none}.inv-collapse-title{font-weight:800;font-size:12px;color:#E77125;text-transform:uppercase;letter-spacing:.5px}.inv-collapse-dates{font-size:12px;font-weight:700}.inv-collapse-count{margin-left:auto;font-size:12px;font-weight:800;color:#E77125}.inv-collapse-chev{display:none}details.inv-collapse-sub>.inv-collapse-body{display:block}@media print{body{padding:0}}`;
   w.document.write('<!DOCTYPE html><html><head><meta charset="utf-8"><title>Invoice</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet"><style>'+pcss+'</style></head><body>'+el.innerHTML+'</body></html>');
   w.document.close();
   let printed=false;
@@ -662,35 +877,195 @@ function printInvoice(){
 
 // ── Add subtrip ──
 function openAddSubtrip(masterId){
-  showModal('<div class="form-grid"><div class="field"><label>Check-in date</label><input type="date" id="sub-ci"></div><div class="field"><label>Check-out date</label><input type="date" id="sub-co"></div><div class="field"><label>Agreed cost (THB)</label><input type="number" id="sub-cost" placeholder="0"></div><div id="sub-msg" style="font-size:12px;color:var(--brand);min-height:16px"></div><button class="btn btn-solid" style="justify-content:center" onclick="saveSubtrip(\''+masterId+'\')">Save extension</button></div>','Add extension');
+  showModal('<div class="form-grid"><div class="field"><label>Room / Property</label><input type="text" id="sub-room" list="sub-room-list" placeholder="Start typing to search…" autocomplete="off"><datalist id="sub-room-list"></datalist></div><div class="field"><label>Check-in date</label><input type="date" id="sub-ci"></div><div class="field"><label>Check-out date</label><input type="date" id="sub-co"></div><div class="field"><label>Agreed cost (THB)</label><input type="number" id="sub-cost" placeholder="0"></div><div id="sub-msg" style="font-size:12px;color:var(--brand);min-height:16px"></div><button class="btn btn-solid" style="justify-content:center" onclick="saveSubtrip(\''+masterId+'\')">Save extension</button></div>','Add extension');
+  populateRoomOptions();
+}
+async function populateRoomOptions(){
+  try{
+    const props=await loadProperties();
+    const dl=document.getElementById('sub-room-list');
+    if(dl) dl.innerHTML=props.map(p=>'<option value="'+esc(p.name)+'">').join('');
+  }catch(e){console.warn('populateRoomOptions',e);}
 }
 async function saveSubtrip(masterId){
   const m=document.getElementById('sub-msg');m.textContent='Saving…';
   const fields={[STF.master]:[masterId]};
   const ci=document.getElementById('sub-ci').value,co=document.getElementById('sub-co').value,c=document.getElementById('sub-cost').value;
+  const roomName=(document.getElementById('sub-room')?.value||'').trim();
   if(ci) fields[STF.checkin]=ci;
   if(co) fields[STF.checkout]=co;
   fields[STF.cost]=Number(c)||0;
+  if(roomName){
+    const props=await loadProperties();
+    const match=props.find(p=>p.name.toLowerCase()===roomName.toLowerCase());
+    if(match){ fields[STF.roomLink]=[match.id]; }
+    else{ m.textContent='Room/property "'+roomName+'" not found — please pick one from the list.'; return; }
+  }
   try{await at(BASE+'/'+SUBTRIPS,'POST',{fields});showToast('Extension saved!');closeModal();}
   catch(e){m.textContent='Error: '+e.message;}
 }
 
-// ── Add service ──
-function openAddService(masterId,subtripId){
-  showModal('<div class="form-grid"><div class="field"><label>Service type</label><select id="svc-type">'+SERVICE_TYPES.map(t=>'<option>'+t+'</option>').join('')+'</select></div><div class="field"><label>Amount (THB)</label><input type="number" id="svc-amt" placeholder="0"></div><div class="field"><label>Date</label><input type="date" id="svc-date"></div><div class="field"><label>Notes</label><input type="text" id="svc-notes" placeholder="Optional"></div><div id="svc-msg" style="font-size:12px;color:var(--brand);min-height:16px"></div><button class="btn btn-solid" style="justify-content:center" onclick="saveService(\''+masterId+'\',\''+(subtripId||'')+'\')">Save charge</button></div>',subtripId?'Add charge to extension':'Add guest charge');
+// ── Add / edit service ──
+function openServiceForm(masterId,subtripId,svc){
+  const isEdit=!!svc;
+  const typeVal=isEdit?svcType(svc):SERVICE_TYPES[0];
+  const amtVal=isEdit?svcAmt(svc):'';
+  const dateVal=isEdit?(svcDate(svc)||''):'';
+  const notesVal=isEdit?(svc.fields?.[SF.notes]||''):'';
+  const statusVal=isEdit?svcStatus(svc):'Not paid';
+  const paidAmtVal=isEdit?svcPaidAmt(svc):'';
+  const dueVal=isEdit?(svcDueDate(svc)||''):'';
+  const paidDateVal=isEdit?(svcPaidDate(svc)||''):'';
+  const typeOpts=SERVICE_TYPES.map(t=>'<option'+(t===typeVal?' selected':'')+'>'+t+'</option>').join('');
+  const statusOpts=SERVICE_STATUSES.map(s=>'<option'+(s===statusVal?' selected':'')+'>'+s+'</option>').join('');
+  const svcId=isEdit?svc.id:'';
+  const body='<div class="form-grid">'+
+    '<div class="field"><label>Service type</label><select id="svc-type">'+typeOpts+'</select></div>'+
+    '<div class="form-grid-2"><div class="field"><label>Amount (THB)</label><input type="number" id="svc-amt" value="'+amtVal+'" placeholder="0"></div><div class="field"><label>Charge date</label><input type="date" id="svc-date" value="'+dateVal+'"></div></div>'+
+    '<div class="field"><label>Notes</label><input type="text" id="svc-notes" value="'+esc(notesVal)+'" placeholder="Optional"></div>'+
+    '<hr class="finance-divider">'+
+    '<div class="field"><label>Payment status</label><select id="svc-status">'+statusOpts+'</select></div>'+
+    '<div class="form-grid-2"><div class="field"><label>Amount paid so far (THB)</label><input type="number" id="svc-paidamt" value="'+paidAmtVal+'" placeholder="0"></div><div class="field"><label>Date paid</label><input type="date" id="svc-paiddate" value="'+paidDateVal+'"></div></div>'+
+    '<div class="field"><label>Due date (if unpaid)</label><input type="date" id="svc-duedate" value="'+dueVal+'"></div>'+
+    '<div id="svc-msg" style="font-size:12px;color:var(--brand);min-height:16px"></div>'+
+    '<div style="display:flex;gap:8px">'+
+      '<button class="btn btn-solid" style="flex:1;justify-content:center" onclick="saveService(\''+masterId+'\',\''+(subtripId||'')+'\',\''+svcId+'\')">'+(isEdit?'Save changes':'Save charge')+'</button>'+
+      (isEdit?'<button class="btn btn-ghost" onclick="deleteService(\''+svcId+'\')">Delete</button>':'')+
+    '</div>'+
+  '</div>';
+  showModal(body, isEdit?'Edit charge':(subtripId?'Add charge to extension':'Add guest charge'));
 }
-async function saveService(masterId,subtripId){
+function openAddService(masterId,subtripId){ openServiceForm(masterId,subtripId,null); }
+async function openEditService(masterId,subtripId,serviceId){
+  const svc=await fetchServiceById(serviceId);
+  if(svc) openServiceForm(masterId,subtripId,svc);
+}
+async function fetchServiceById(id){
+  try{ return await at(BASE+'/'+SERVICES+'/'+id+'?returnFieldsByFieldId=true'); }
+  catch(e){console.warn('fetchServiceById',e);return null;}
+}
+async function saveService(masterId,subtripId,serviceId){
   const m=document.getElementById('svc-msg');m.textContent='Saving…';
   const hasSub=subtripId&&subtripId!=='null'&&subtripId!=='';
   const fields={[SF.type]:document.getElementById('svc-type').value,[SF.amount]:Number(document.getElementById('svc-amt').value)||0};
   const d=document.getElementById('svc-date').value,n=document.getElementById('svc-notes').value;
+  const status=document.getElementById('svc-status').value;
+  const paidAmt=Number(document.getElementById('svc-paidamt').value)||0;
+  const paidDate=document.getElementById('svc-paiddate').value;
+  const dueDate=document.getElementById('svc-duedate').value;
   if(d) fields[SF.date]=d;
-  if(n) fields[SF.notes]=n;
+  fields[SF.notes]=n||'';
+  fields[SF.status]=status;
+  fields[SF.paidAmt]=paidAmt;
+  if(paidDate) fields[SF.paidDate]=paidDate;
+  if(dueDate) fields[SF.dueDate]=dueDate;
   if(masterId&&masterId!=='null') fields[SF.master]=[masterId];
   if(hasSub) fields[SF.subtrip]=[subtripId];
-  try{await at(BASE+'/'+SERVICES,'POST',{fields});showToast('Charge saved!');closeModal();}
-  catch(e){m.textContent='Error: '+e.message;}
+  try{
+    if(serviceId){ await at(BASE+'/'+SERVICES+'/'+serviceId,'PATCH',{fields}); showToast('Charge updated!'); }
+    else { await at(BASE+'/'+SERVICES,'POST',{fields}); showToast('Charge saved!'); }
+    closeModal();
+  }catch(e){m.textContent='Error: '+e.message;}
 }
+async function deleteService(serviceId){
+  if(!confirm('Delete this charge? This cannot be undone.')) return;
+  try{ await at(BASE+'/'+SERVICES+'/'+serviceId,'DELETE'); showToast('Charge deleted'); closeModal(); }
+  catch(e){ showToast('Error: '+e.message); }
+}
+// ── Quick "Mark as paid" for a service/charge ──
+async function openMarkPaid(serviceId){
+  const svc=await fetchServiceById(serviceId);
+  if(!svc) return;
+  const balance=svcBalance(svc);
+  const already=svcPaidAmt(svc);
+  const chargeAmt=svcAmt(svc);
+  const today=new Date().toISOString().split('T')[0];
+  showModal('<div class="form-grid"><div class="field"><label>Amount received now (THB)</label><input type="number" id="mp-amt" value="'+balance+'" placeholder="0"></div><div class="field"><label>Date paid</label><input type="date" id="mp-date" value="'+today+'"></div><div id="mp-msg" style="font-size:12px;color:var(--brand);min-height:16px"></div><button class="btn btn-solid" style="justify-content:center" onclick="saveMarkPaid(\''+serviceId+'\','+already+','+chargeAmt+')">Save</button></div>','Mark charge as paid — '+esc(svcType(svc)));
+}
+async function saveMarkPaid(serviceId,alreadyPaid,chargeAmount){
+  const m=document.getElementById('mp-msg');m.textContent='Saving…';
+  const amtNow=Number(document.getElementById('mp-amt').value)||0;
+  const date=document.getElementById('mp-date').value;
+  if(amtNow<=0){m.textContent='Enter an amount greater than 0';return;}
+  const newTotalPaid=alreadyPaid+amtNow;
+  const status=newTotalPaid>=chargeAmount?'Fully paid':'Partially paid';
+  const fields={[SF.paidAmt]:newTotalPaid,[SF.status]:status};
+  if(date) fields[SF.paidDate]=date;
+  try{ await at(BASE+'/'+SERVICES+'/'+serviceId,'PATCH',{fields}); showToast('Marked as paid!'); closeModal(); }
+  catch(e){ m.textContent='Error: '+e.message; }
+}
+
+// ── Add / edit payment ──
+// Cache of the currently open trip's stays, used to populate the payment form's trip selector
+let currentTripStays=[]; // [{subId:''|recXXX, label}]
+function setCurrentTripStays(trip,subs){
+  const f=trip.fields||{};
+  currentTripStays=[{subId:'',label:(f['Property (for automations)']||'Master trip')}];
+  subs.forEach((sub,i)=>{
+    const propName=subProperty(sub);
+    currentTripStays.push({subId:sub.id,label:'Extension '+(i+1)+(propName?' — '+propName:'')});
+  });
+}
+function openPaymentForm(masterId,pay){
+  const isEdit=!!pay;
+  const typeVal=isEdit?payType(pay):PAYMENT_TYPES[0];
+  const amtVal=isEdit?payAmt(pay):'';
+  const dateVal=isEdit?(payDate(pay)||new Date().toISOString().split('T')[0]):new Date().toISOString().split('T')[0];
+  const methodVal=isEdit?payMethod(pay):'';
+  const notesVal=isEdit?payNotes(pay):'';
+  const subVal=isEdit?paySubtripId(pay):'';
+  const typeOpts=PAYMENT_TYPES.map(t=>'<option'+(t===typeVal?' selected':'')+'>'+t+'</option>').join('');
+  const methodOpts='<option value="">-- Select --</option>'+PAYMENT_METHODS.map(m=>'<option'+(m===methodVal?' selected':'')+'>'+m+'</option>').join('');
+  const stayOpts=(currentTripStays.length?currentTripStays:[{subId:'',label:'Master trip'}]).map(s=>'<option value="'+s.subId+'"'+(s.subId===subVal?' selected':'')+'>'+esc(s.label)+'</option>').join('');
+  const payId=isEdit?pay.id:'';
+  const body='<div class="form-grid">'+
+    '<div class="field"><label>Applies to</label><select id="pay-stay">'+stayOpts+'</select></div>'+
+    '<div class="field"><label>Payment type</label><select id="pay-type">'+typeOpts+'</select></div>'+
+    '<div class="field"><label>Amount (THB)</label><input type="number" id="pay-amt" value="'+amtVal+'" placeholder="0"></div>'+
+    '<div class="field"><label>Date received</label><input type="date" id="pay-date" value="'+dateVal+'"></div>'+
+    '<div class="field"><label>Method</label><select id="pay-method">'+methodOpts+'</select></div>'+
+    '<div class="field"><label>Notes</label><input type="text" id="pay-notes" value="'+esc(notesVal)+'" placeholder="Optional — e.g. transaction ref"></div>'+
+    '<div id="pay-msg" style="font-size:12px;color:var(--brand);min-height:16px"></div>'+
+    '<div style="display:flex;gap:8px">'+
+      '<button class="btn btn-solid" style="flex:1;justify-content:center" onclick="savePayment(\''+masterId+'\',\''+payId+'\')">'+(isEdit?'Save changes':'Save payment')+'</button>'+
+      (isEdit?'<button class="btn btn-ghost" onclick="deletePayment(\''+payId+'\')">Delete</button>':'')+
+    '</div>'+
+  '</div>';
+  showModal(body, isEdit?'Edit payment':'Record payment');
+}
+function openAddPayment(masterId){ openPaymentForm(masterId,null); }
+async function openEditPayment(masterId,paymentId){
+  const pay=await fetchPaymentById(paymentId);
+  if(pay) openPaymentForm(masterId,pay);
+}
+async function fetchPaymentById(id){
+  try{ return await at(BASE+'/'+PAYMENTS+'/'+id+'?returnFieldsByFieldId=true'); }
+  catch(e){console.warn('fetchPaymentById',e);return null;}
+}
+async function savePayment(masterId,paymentId){
+  const m=document.getElementById('pay-msg');m.textContent='Saving…';
+  const amt=Number(document.getElementById('pay-amt').value)||0;
+  if(amt<=0){m.textContent='Enter an amount greater than 0';return;}
+  const fields={[PF.amount]:amt,[PF.type]:document.getElementById('pay-type').value};
+  if(!paymentId) fields[PF.tripId]=masterId;
+  const d=document.getElementById('pay-date').value,meth=document.getElementById('pay-method').value,n=document.getElementById('pay-notes').value;
+  const stayEl=document.getElementById('pay-stay');
+  if(d) fields[PF.date]=d;
+  if(meth) fields[PF.method]=meth;
+  fields[PF.notes]=n||'';
+  if(stayEl) fields[PF.subtripId]=stayEl.value||'';
+  try{
+    if(paymentId){ await at(BASE+'/'+PAYMENTS+'/'+paymentId,'PATCH',{fields}); showToast('Payment updated!'); }
+    else { await at(BASE+'/'+PAYMENTS,'POST',{fields}); showToast('Payment recorded!'); }
+    closeModal();
+  }catch(e){m.textContent='Error: '+e.message;}
+}
+async function deletePayment(paymentId){
+  if(!confirm('Delete this payment record? This cannot be undone.')) return;
+  try{ await at(BASE+'/'+PAYMENTS+'/'+paymentId,'DELETE'); showToast('Payment deleted'); closeModal(); }
+  catch(e){ showToast('Error: '+e.message); }
+}
+
 
 // ── Edit financials ──
 function openEditFinancials(tripId){
@@ -747,11 +1122,12 @@ function closeModal(){document.getElementById('modal-container').innerHTML='';}
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
 
 // ── Init ──
-function cityCount(c){return allTrips.filter(t=>tripCity(t.fields||{})===c).length;}
+let tripsLoaded=false;
+function cityCount(c){return allTrips.filter(t=>tripCity(t.fields||{}).includes(c)).length;}
 function updateHomeCounts(){
   document.querySelectorAll('.home-card-stat[data-count]').forEach(function(el){
     const num=el.querySelector('.stat-num');
-    if(num) num.textContent=cityCount(el.dataset.count);
+    if(num) num.textContent=tripsLoaded?cityCount(el.dataset.count):'…';
   });
 }
 function showHome(){
