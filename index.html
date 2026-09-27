@@ -346,7 +346,7 @@ details.inv-collapse-sub .inv-collapse-body{padding:10px 4px 4px}
 <div id="toast"></div>
 
 <script>
-// ═════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════════════════
 // CLERK AUTH — setup steps
 // 1. Paste your Clerk loader <script> snippet in the <head> (see comment there)
 // 2. In dashboard.clerk.com → your app → Configure → Restrictions:
@@ -354,7 +354,7 @@ details.inv-collapse-sub .inv-collapse-body{padding:10px 4px 4px}
 // 3. To add a teammate: Users → Invite → enter their company email.
 //    They get an email, click it, land back here, and Clerk's own UI
 //    walks them through setting a password. No code needed for any of this.
-// ═════════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════════════════
 
 const BASE='appND9kP55cvkDX7V';
 const MASTER='tblodAjjJy8FBQAY7';
@@ -507,7 +507,7 @@ function svcType(s){const v=s.fields?.[SF.type];return (v&&typeof v==='object')?
 function svcAmt(s){return Number(s.fields?.[SF.amount]||0);}
 function svcDate(s){return s.fields?.[SF.date];}
 function svcSubIds(s){return linkIds(s.fields?.[SF.subtrip]);}
-function svcStatus(s){const v=s.fields?.[SF.status];return (v&&typeof v==='object')?v.name:(w||'Not paid');}
+function svcStatus(s){const v=s.fields?.[SF.status];return (v&&typeof v==='object')?v.name:(v||'Not paid');}
 function svcPaidAmt(s){return Number(s.fields?.[SF.paidAmt]||0);}
 function svcBalance(s){const v=s.fields?.[SF.balance];return v!=null?Number(v):(svcAmt(s)-svcPaidAmt(s));}
 function svcDueDate(s){return s.fields?.[SF.dueDate];}
@@ -1245,7 +1245,7 @@ async function saveService(masterId,subtripId,serviceId){
   if(hasSub) fields[SF.subtrip]=[subtripId];
   try{
     if(serviceId){ await at(BASE+'/'+SERVICES+'/'+serviceId,'PATCH',{fields}); showToast('Charge updated!'); }
-    else { await at(BASE+'/'+SERVICES,'POST',{fields}); showToast('Charge saved!('); }
+    else { await at(BASE+'/'+SERVICES,'POST',{fields}); showToast('Charge saved!'); }
     closeModal();
   }catch(e){m.textContent='Error: '+e.message;}
 }
@@ -1279,7 +1279,7 @@ async function saveMarkPaid(serviceId,alreadyPaid,chargeAmount){
 
 // ── Add / edit payment ──
 // Cache of the currently open trip's stays, used to populate the payment form's trip selector
-let currentTripStays=[]; // [{subId:'',label}]
+let currentTripStays=[]; // [{subId:''|recXXX, label}]
 function setCurrentTripStays(trip,subs){
   const f=trip.fields||{};
   currentTripStays=[{subId:'',label:(f['Property (for automations)']||'Master trip')}];
@@ -1295,4 +1295,442 @@ function openPaymentForm(masterId,pay){
   const dateVal=isEdit?(payDate(pay)||new Date().toISOString().split('T')[0]):new Date().toISOString().split('T')[0];
   const methodVal=isEdit?payMethod(pay):'';
   const notesVal=isEdit?payNotes(pay):'';
-  const subVal=isEdit?paySubtripId(pay):'', 
+  const subVal=isEdit?paySubtripId(pay):'';
+  const typeOpts=PAYMENT_TYPES.map(t=>'<option'+(t===typeVal?' selected':'')+'>'+t+'</option>').join('');
+  const methodOpts='<option value="">-- Select --</option>'+PAYMENT_METHODS.map(m=>'<option'+(m===methodVal?' selected':'')+'>'+m+'</option>').join('');
+  const stayOpts=(currentTripStays.length?currentTripStays:[{subId:'',label:'Master trip'}]).map(s=>'<option value="'+s.subId+'"'+(s.subId===subVal?' selected':'')+'>'+esc(s.label)+'</option>').join('');
+  const payId=isEdit?pay.id:'';
+  const body='<div class="form-grid">'+
+    '<div class="field"><label>Applies to</label><select id="pay-stay">'+stayOpts+'</select></div>'+
+    '<div class="field"><label>Payment type</label><select id="pay-type">'+typeOpts+'</select></div>'+
+    '<div class="field"><label>Amount (THB)</label><input type="number" id="pay-amt" value="'+amtVal+'" placeholder="0"></div>'+
+    '<div class="field"><label>Date received</label><input type="date" id="pay-date" value="'+dateVal+'"></div>'+
+    '<div class="field"><label>Method</label><select id="pay-method">'+methodOpts+'</select></div>'+
+    '<div class="field"><label>Notes</label><input type="text" id="pay-notes" value="'+esc(notesVal)+'" placeholder="Optional — e.g. transaction ref"></div>'+
+    '<div id="pay-msg" style="font-size:12px;color:var(--brand);min-height:16px"></div>'+
+    '<div style="display:flex;gap:8px">'+
+      '<button class="btn btn-solid" style="flex:1;justify-content:center" onclick="savePayment(\''+masterId+'\',\''+payId+'\')">'+(isEdit?'Save changes':'Save payment')+'</button>'+
+      (isEdit?'<button class="btn btn-ghost" onclick="deletePayment(\''+payId+'\')">Delete</button>':'')+
+    '</div>'+
+  '</div>';
+  showModal(body, isEdit?'Edit payment':'Record payment');
+}
+function openAddPayment(masterId){ openPaymentForm(masterId,null); }
+async function openEditPayment(masterId,paymentId){
+  const pay=await fetchPaymentById(paymentId);
+  if(pay) openPaymentForm(masterId,pay);
+}
+async function fetchPaymentById(id){
+  try{ return await at(BASE+'/'+PAYMENTS+'/'+id+'?returnFieldsByFieldId=true'); }
+  catch(e){console.warn('fetchPaymentById',e);return null;}
+}
+async function savePayment(masterId,paymentId){
+  const m=document.getElementById('pay-msg');m.textContent='Saving…';
+  const amt=Number(document.getElementById('pay-amt').value)||0;
+  if(amt<=0){m.textContent='Enter an amount greater than 0';return;}
+  const fields={[PF.amount]:amt,[PF.type]:document.getElementById('pay-type').value};
+  if(!paymentId) fields[PF.tripId]=masterId;
+  const d=document.getElementById('pay-date').value,meth=document.getElementById('pay-method').value,n=document.getElementById('pay-notes').value;
+  const stayEl=document.getElementById('pay-stay');
+  if(d) fields[PF.date]=d;
+  if(meth) fields[PF.method]=meth;
+  fields[PF.notes]=n||'';
+  if(stayEl) fields[PF.subtripId]=stayEl.value||'';
+  try{
+    if(paymentId){ await at(BASE+'/'+PAYMENTS+'/'+paymentId,'PATCH',{fields}); showToast('Payment updated!'); }
+    else { await at(BASE+'/'+PAYMENTS,'POST',{fields}); showToast('Payment recorded!'); }
+    closeModal();
+  }catch(e){m.textContent='Error: '+e.message;}
+}
+async function deletePayment(paymentId){
+  if(!confirm('Delete this payment record? This cannot be undone.')) return;
+  try{ await at(BASE+'/'+PAYMENTS+'/'+paymentId,'DELETE'); showToast('Payment deleted'); closeModal(); }
+  catch(e){ showToast('Error: '+e.message); }
+}
+
+
+// ── Edit financials ──
+function openEditFinancials(tripId){
+  const trip=allTrips.find(t=>t.id===tripId);if(!trip)return;
+  const f=trip.fields||{};
+  const chOpts='<option value="">-- Select --</option>'+BOOKING_CHANNELS.map(c=>'<option value="'+c+'"'+(f['Booking Channel']===c?' selected':'')+'>'+c+'</option>').join('');
+  const ctOpts='<option value="">-- Select --</option>'+CHANNEL_CONTACTS.map(c=>'<option value="'+c+'"'+(f['Channel contact']===c?' selected':'')+'>'+c+'</option>').join('');
+  showModal('<div class="form-grid-2"><div class="field"><label>Agreed cost (฿)</label><input type="number" id="ef-cost" value="'+(f['Agreed cost']||0)+'"></div><div class="field"><label>Security deposit (฿)</label><input type="number" id="ef-dep" value="'+(f['Security deposit']||0)+'" oninput="if(document.getElementById(\'ef-dep-hint\'))document.getElementById(\'ef-dep-hint\').innerHTML=\'\'"><div id="ef-dep-hint" style="font-size:11px;color:var(--text2);margin-top:4px;min-height:14px"></div></div><div class="field"><label>Advance to be paid (฿)</label><input type="number" id="ef-adv" value="'+(f['Advance to be paid']||0)+'"></div><div class="field"><label>Advance paid by customer (฿)</label><input type="number" id="ef-advpaid" value="'+(f['Actual advance paid by the customer']||0)+'"></div><div class="field"><label>Arrival date</label><input type="date" id="ef-arrival" value="'+(f['Arrival Date']||'')+'"></div><div class="field"><label>Checkout date</label><input type="date" id="ef-checkout" value="'+(f['Checkout Date']||'')+'"></div><div class="field"><label>Number of guests</label><input type="number" id="ef-guests" value="'+(f['Number of Guests']||1)+'"></div><div class="field"><label>Booking channel</label><select id="ef-channel">'+chOpts+'</select></div><div class="field col-span-2"><label>First point of contact</label><select id="ef-contact">'+ctOpts+'</select></div></div><div id="ef-msg" style="font-size:12px;color:var(--brand);min-height:16px;margin-top:10px"></div><div style="display:flex;gap:8px;margin-top:10px"><button class="btn btn-solid" style="flex:1;justify-content:center" onclick="saveFinancials(\''+tripId+'\')">Save changes</button><button class="btn btn-ghost" onclick="closeModal()">Cancel</button></div>','Edit trip details');
+  const propName=f['Property (for automations)']||'';
+  ['ef-arrival','ef-checkout'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el){ el.addEventListener('input',()=>updateEfSecDepHint(propName)); el.addEventListener('change',()=>updateEfSecDepHint(propName)); }
+  });
+  updateEfSecDepHint(propName);
+}
+async function updateEfSecDepHint(propName){
+  const hintEl=document.getElementById('ef-dep-hint');
+  if(!hintEl) return;
+  if(!propName){ hintEl.innerHTML=''; return; }
+  const ci=document.getElementById('ef-arrival')?.value;
+  const co=document.getElementById('ef-checkout')?.value;
+  let nights=null;
+  if(ci&&co){ const d1=new Date(ci),d2=new Date(co); if(!isNaN(d1)&&!isNaN(d2)) nights=Math.round((d2-d1)/86400000); }
+  const suggested=await suggestSecurityDeposit(propName,nights);
+  hintEl.innerHTML=suggested==null?'':('Suggested: '+fmtThb(suggested)+' — <a href="javascript:void(0)" style="color:var(--brand)" onclick="document.getElementById(\'ef-dep\').value='+suggested+'">Use</a>');
+}
+async function saveFinancials(tripId){
+  const m=document.getElementById('ef-msg');m.textContent='Saving…';
+  const fields={
+    [MF.cost]:Number(document.getElementById('ef-cost').value)||0,
+    [MF.secdep]:Number(document.getElementById('ef-dep').value)||0,
+    [MF.adv]:Number(document.getElementById('ef-adv').value)||0,
+    [MF.advpaid]:Number(document.getElementById('ef-advpaid').value)||0,
+    [MF.guests]:Number(document.getElementById('ef-guests').value)||1
+  };
+  const ch=document.getElementById('ef-channel').value,ct=document.getElementById('ef-contact').value;
+  const ar=document.getElementById('ef-arrival').value,co=document.getElementById('ef-checkout').value;
+  if(ch) fields[MF.channel]=ch;
+  if(ct) fields[MF.contact]=ct;
+  if(ar) fields[MF.arrival]=ar;
+  if(co) fields[MF.checkout]=co;
+  try{
+    await at(BASE+'/'+MASTER+'/'+tripId,'PATCH',{fields});
+    const t=allTrips.find(x=>x.id===tripId);
+    if(t){t.fields['Agreed cost']=fields[MF.cost];t.fields['Security deposit']=fields[MF.secdep];t.fields['Advance to be paid']=fields[MF.adv];t.fields['Actual advance paid by the customer']=fields[MF.advpaid];t.fields['Number of Guests']=fields[MF.guests];if(ch)t.fields['Booking Channel']=ch;if(ct)t.fields['Channel contact']=ct;if(ar)t.fields['Arrival Date']=ar;if(co)t.fields['Checkout Date']=co;}
+    showToast('Trip updated!');closeModal();renderView();
+  }catch(e){m.textContent='Error: '+e.message;}
+}
+
+// ── New inquiry (rebuilt to mirror the Fillout "New customer & inquiry creation" form) ──
+// State for the in-progress New Inquiry modal
+let ntCrm=null;       // {id, label, tripCount} once an existing CRM contact is picked
+let ntIsNewCustomer=false;
+let ntProperty=null;  // {id, label} once a property is picked
+let ntSearchTimer=null;
+
+function escAttr(s){return esc(s).replace(/'/g,'&#39;');}
+
+function openNewTrip(){
+  ntCrm=null; ntIsNewCustomer=false; ntProperty=null;
+  const today=new Date().toISOString().split('T')[0];
+  const html=`
+    <div class="finance-box">
+      <div class="finance-title">Customer *</div>
+      <div id="nt-crm-search-wrap">
+        <input type="text" id="nt-crm-search" placeholder="Search existing guest by name or phone…" oninput="onCrmSearchInput()">
+        <div id="nt-crm-results" style="margin-top:6px"></div>
+        <div style="margin-top:8px"><button type="button" class="btn btn-outline btn-sm" onclick="showNewCustomerFields()">+ New customer</button></div>
+      </div>
+      <div id="nt-crm-selected" style="display:none;margin-top:6px"></div>
+      <div id="nt-crm-new-fields" style="display:none;margin-top:10px">
+        <div class="form-grid-2">
+          <div class="field"><label>First Name *</label><input type="text" id="nt-cf-fn"></div>
+          <div class="field"><label>Last Name *</label><input type="text" id="nt-cf-ln"></div>
+          <div class="field"><label>Initial Contact Point *</label><select id="nt-cf-icp"><option value="">-- Select --</option>${INITIAL_CONTACT_POINTS.map(c=>'<option>'+c+'</option>').join('')}</select></div>
+          <div class="field"><label>Contact Channel *</label><select id="nt-cf-cc"><option value="">-- Select --</option>${CRM_CONTACT_CHANNELS.map(c=>'<option>'+c+'</option>').join('')}</select></div>
+          <div class="field"><label>LINE ID</label><input type="text" id="nt-cf-line"></div>
+          <div class="field"><label>Telegram ID</label><input type="text" id="nt-cf-tg"></div>
+          <div class="field"><label>Phone number</label><input type="text" id="nt-cf-phone"></div>
+          <div class="field"><label>Email</label><input type="email" id="nt-cf-email"></div>
+          <div class="field col-span-2"><label>Notes</label><textarea id="nt-cf-notes" rows="2"></textarea></div>
+        </div>
+        <div style="margin-top:8px"><button type="button" class="btn btn-ghost btn-sm" onclick="cancelNewCustomer()">← Search existing instead</button></div>
+      </div>
+    </div>
+    <div class="finance-box">
+      <div class="finance-title">Property *</div>
+      <div id="nt-prop-search-wrap">
+        <input type="text" id="nt-prop-search" placeholder="Search property by name / code / city…" oninput="onPropSearchInput()">
+        <div id="nt-prop-results" style="margin-top:6px"></div>
+      </div>
+      <div id="nt-prop-selected" style="display:none;margin-top:6px"></div>
+    </div>
+    <div class="form-grid-2">
+      <div class="field"><label>Inquiry for - Monthly/Long-term/Sales *</label><select id="nt-for"><option value="">-- Select --</option>${INQUIRY_FOR.map(c=>'<option>'+c+'</option>').join('')}</select></div>
+      <div class="field"><label>Inquiry Channel *</label><select id="nt-channel"><option value="">-- Select --</option>${CHANNEL_CONTACTS.map(c=>'<option>'+c+'</option>').join('')}</select></div>
+      <div class="field"><label>Arrival Date *</label><input type="date" id="nt-arrival"></div>
+      <div class="field"><label>Checkout Date *</label><input type="date" id="nt-checkout"></div>
+      <div class="field"><label>Inquiry Type *</label><select id="nt-type"><option value="">-- Select --</option>${INQUIRY_TYPES.map(c=>'<option>'+c+'</option>').join('')}</select></div>
+      <div class="field"><label>Inquiry from *</label><select id="nt-from"><option value="">-- Select --</option>${INQUIRY_FROM.map(c=>'<option>'+c+'</option>').join('')}</select></div>
+      <div class="field"><label>Inquiry status *</label><select id="nt-status">${ALL_STAGES.map(c=>'<option'+(c==='Inquiry'?' selected':'')+'>'+c+'</option>').join('')}</select></div>
+      <div class="field"><label># Number of guests</label><input type="number" id="nt-guests" value="1"></div>
+      <div class="field"><label>First contacted date *</label><input type="date" id="nt-firstcontact" value="${today}"></div>
+      <div class="field"><label>Agreed cost (฿)</label><input type="number" id="nt-cost" placeholder="0"></div>
+      <div class="field"><label>Advance paid by the customer (฿)</label><input type="number" id="nt-advpaid" placeholder="0"></div>
+      <div class="field col-span-2"><label>Check-in Notes</label><textarea id="nt-checkinnotes" rows="2"></textarea></div>
+      <div class="field col-span-2"><label>Comments</label><textarea id="nt-comments" rows="2"></textarea></div>
+    </div>
+    <div id="nt-msg" style="font-size:12px;color:var(--brand);min-height:16px;margin-top:10px"></div>
+    <button class="btn btn-solid" style="width:100%;justify-content:center;margin-top:4px" onclick="saveNewTrip()">Create inquiry</button>
+  `;
+  showModal(html,'New inquiry');
+}
+
+function showNewCustomerFields(){
+  ntIsNewCustomer=true; ntCrm=null;
+  document.getElementById('nt-crm-search-wrap').style.display='none';
+  document.getElementById('nt-crm-selected').style.display='none';
+  document.getElementById('nt-crm-new-fields').style.display='block';
+}
+function cancelNewCustomer(){
+  ntIsNewCustomer=false;
+  document.getElementById('nt-crm-new-fields').style.display='none';
+  document.getElementById('nt-crm-search-wrap').style.display='block';
+}
+function onCrmSearchInput(){
+  clearTimeout(ntSearchTimer);
+  const q=document.getElementById('nt-crm-search').value.trim();
+  const box=document.getElementById('nt-crm-results');
+  if(q.length<2){box.innerHTML='';return;}
+  ntSearchTimer=setTimeout(()=>searchCrm(q),350);
+}
+async function searchCrm(q){
+  const box=document.getElementById('nt-crm-results');
+  box.innerHTML='<div style="font-size:12px;color:var(--text2)">Searching…</div>';
+  const qEsc=q.replace(/"/g,'\\"');
+  const digits=q.replace(/[^0-9]/g,'');
+  let parts=['SEARCH(LOWER("'+qEsc+'"),LOWER({First Name}&" "&{Last Name}))'];
+  if(digits) parts.push('SEARCH("'+digits+'",REGEX_REPLACE({Phone number}&"","[^0-9]",""))');
+  const formula='OR('+parts.join(',')+')';
+  try{
+    const url=BASE+'/'+CRM+'?maxRecords=8&filterByFormula='+encodeURIComponent(formula)+
+      '&fields[]='+encodeURIComponent('First Name')+'&fields[]='+encodeURIComponent('Last Name')+
+      '&fields[]='+encodeURIComponent('Phone number')+'&fields[]='+encodeURIComponent('Status')+
+      '&fields[]='+encodeURIComponent('No of trips');
+    const res=await at(url);
+    const recs=res.records||[];
+    if(!recs.length){box.innerHTML='<div style="font-size:12px;color:var(--text2)">No matches — use "+ New customer" below</div>';return;}
+    box.innerHTML=recs.map(r=>{
+      const f=r.fields||{};
+      const name=((f['First Name']||'')+' '+(f['Last Name']||'')).trim()||'(no name)';
+      const phone=f['Phone number']||'';
+      const status=f['Status']||'';
+      const trips=Number(f['No of trips']||0);
+      return '<div class="svc-row" style="cursor:pointer" onclick="selectCrm(\''+r.id+'\',\''+escAttr(name)+'\','+trips+')"><div><div class="svc-name">'+esc(name)+'</div><div class="svc-meta">'+esc(phone)+(status?' · '+esc(status):'')+' · '+trips+' trip(s)</div></div></div>';
+    }).join('');
+  }catch(e){box.innerHTML='<div style="font-size:12px;color:var(--red)">Search error: '+esc(e.message)+'</div>';}
+}
+function selectCrm(id,name,tripCount){
+  ntCrm={id,label:name,tripCount};
+  ntIsNewCustomer=false;
+  document.getElementById('nt-crm-search-wrap').style.display='none';
+  const sel=document.getElementById('nt-crm-selected');
+  sel.style.display='block';
+  sel.innerHTML='<div class="svc-row"><div><div class="svc-name">✓ '+esc(name)+'</div><div class="svc-meta">'+tripCount+' prior trip(s)</div></div><button class="btn btn-ghost btn-sm" onclick="clearCrmSelection()">Change</button></div>';
+  const typeSel=document.getElementById('nt-type');
+  if(typeSel && !typeSel.value) typeSel.value=tripCount>0?'Repeat':'Fresh';
+}
+function clearCrmSelection(){
+  ntCrm=null;
+  document.getElementById('nt-crm-selected').style.display='none';
+  document.getElementById('nt-crm-search-wrap').style.display='block';
+  document.getElementById('nt-crm-search').value='';
+  document.getElementById('nt-crm-results').innerHTML='';
+}
+function onPropSearchInput(){
+  clearTimeout(ntSearchTimer);
+  const q=document.getElementById('nt-prop-search').value.trim();
+  const box=document.getElementById('nt-prop-results');
+  if(q.length<2){box.innerHTML='';return;}
+  ntSearchTimer=setTimeout(()=>searchProperty(q),350);
+}
+async function searchProperty(q){
+  const box=document.getElementById('nt-prop-results');
+  box.innerHTML='<div style="font-size:12px;color:var(--text2)">Searching…</div>';
+  const qEsc=q.replace(/"/g,'\\"');
+  const formula='SEARCH(LOWER("'+qEsc+'"),LOWER({Room ID}&" "&{Airbnb Name}&" "&{City}))';
+  try{
+    const url=BASE+'/'+PROPERTIES+'?maxRecords=8&filterByFormula='+encodeURIComponent(formula)+
+      '&fields[]='+encodeURIComponent('Room ID')+'&fields[]='+encodeURIComponent('City')+
+      '&fields[]='+encodeURIComponent('Number of bedrooms');
+    const res=await at(url);
+    const recs=res.records||[];
+    if(!recs.length){box.innerHTML='<div style="font-size:12px;color:var(--text2)">No matching properties</div>';return;}
+    box.innerHTML=recs.map(r=>{
+      const f=r.fields||{};
+      const name=f['Room ID']||'(unnamed)';
+      const city=f['City']||'';
+      const br=f['Number of bedrooms'];
+      return '<div class="svc-row" style="cursor:pointer" onclick="selectProperty(\''+r.id+'\',\''+escAttr(name)+'\')"><div><div class="svc-name">'+esc(name)+'</div><div class="svc-meta">'+esc(city)+(br?' · '+br+' BR':'')+'</div></div></div>';
+    }).join('');
+  }catch(e){box.innerHTML='<div style="font-size:12px;color:var(--red)">Search error: '+esc(e.message)+'</div>';}
+}
+function selectProperty(id,name){
+  ntProperty={id,label:name};
+  document.getElementById('nt-prop-search-wrap').style.display='none';
+  const sel=document.getElementById('nt-prop-selected');
+  sel.style.display='block';
+  sel.innerHTML='<div class="svc-row"><div><div class="svc-name">✓ '+esc(name)+'</div></div><button class="btn btn-ghost btn-sm" onclick="clearPropertySelection()">Change</button></div>';
+}
+function clearPropertySelection(){
+  ntProperty=null;
+  document.getElementById('nt-prop-selected').style.display='none';
+  document.getElementById('nt-prop-search-wrap').style.display='block';
+  document.getElementById('nt-prop-search').value='';
+  document.getElementById('nt-prop-results').innerHTML='';
+}
+async function saveNewTrip(){
+  const m=document.getElementById('nt-msg');
+  const missing=[];
+  if(!ntIsNewCustomer && !ntCrm) missing.push('Customer');
+  if(ntIsNewCustomer){
+    if(!document.getElementById('nt-cf-fn').value.trim()) missing.push('First Name');
+    if(!document.getElementById('nt-cf-ln').value.trim()) missing.push('Last Name');
+    if(!document.getElementById('nt-cf-icp').value) missing.push('Initial Contact Point');
+    if(!document.getElementById('nt-cf-cc').value) missing.push('Contact Channel');
+  }
+  if(!ntProperty) missing.push('Property');
+  const forVal=document.getElementById('nt-for').value;
+  const channelVal=document.getElementById('nt-channel').value;
+  const arrival=document.getElementById('nt-arrival').value;
+  const checkout=document.getElementById('nt-checkout').value;
+  const typeVal=document.getElementById('nt-type').value;
+  const fromVal=document.getElementById('nt-from').value;
+  const statusVal=document.getElementById('nt-status').value;
+  const firstContact=document.getElementById('nt-firstcontact').value;
+  if(!forVal) missing.push('Inquiry for');
+  if(!channelVal) missing.push('Inquiry Channel');
+  if(!arrival) missing.push('Arrival Date');
+  if(!checkout) missing.push('Checkout Date');
+  if(!typeVal) missing.push('Inquiry Type');
+  if(!fromVal) missing.push('Inquiry from');
+  if(!statusVal) missing.push('Inquiry status');
+  if(!firstContact) missing.push('First contacted date');
+  if(missing.length){m.textContent='Missing: '+missing.join(', ');return;}
+
+  m.textContent='Creating…';
+  try{
+    let crmId=ntCrm?ntCrm.id:null;
+    if(ntIsNewCustomer){
+      const cfFields={
+        [CF.firstName]:document.getElementById('nt-cf-fn').value.trim(),
+        [CF.lastName]:document.getElementById('nt-cf-ln').value.trim(),
+        [CF.initialContact]:document.getElementById('nt-cf-icp').value,
+        [CF.contactChannel]:document.getElementById('nt-cf-cc').value
+      };
+      const line=document.getElementById('nt-cf-line').value.trim();
+      const tg=document.getElementById('nt-cf-tg').value.trim();
+      const phone=document.getElementById('nt-cf-phone').value.trim();
+      const email=document.getElementById('nt-cf-email').value.trim();
+      const notes=document.getElementById('nt-cf-notes').value.trim();
+      if(line) cfFields[CF.line]=line;
+      if(tg) cfFields[CF.telegram]=tg;
+      if(phone) cfFields[CF.phone]=phone;
+      if(email) cfFields[CF.email]=email;
+      if(notes) cfFields[CF.notes]=notes;
+      const crmRes=await at(BASE+'/'+CRM,'POST',{fields:cfFields});
+      crmId=crmRes.id;
+    }
+    const fields={
+      [MF.status]:statusVal, [MF.inquiryFor]:forVal, [MF.contact]:channelVal,
+      [MF.arrival]:arrival, [MF.checkout]:checkout, [MF.inquiryType]:typeVal, [MF.inquiryFrom]:fromVal,
+      [MF.firstContactDate]:firstContact, [MF.guests]:Number(document.getElementById('nt-guests').value)||1,
+      [MF.cost]:Number(document.getElementById('nt-cost').value)||0,
+      [MF.advpaid]:Number(document.getElementById('nt-advpaid').value)||0,
+      [MF.crmContact]:[crmId], [MF.property]:[ntProperty.id]
+    };
+    const checkinNotes=document.getElementById('nt-checkinnotes').value.trim();
+    const comments=document.getElementById('nt-comments').value.trim();
+    if(checkinNotes) fields[MF.checkinNotes]=checkinNotes;
+    if(comments) fields[MF.comments]=comments;
+    await at(BASE+'/'+MASTER,'POST',{fields});
+    showToast('Inquiry created!');closeModal();loadTrips();
+  }catch(e){m.textContent='Error: '+e.message;}
+}
+
+// ── Modal / toast ──
+function showModal(content,title){
+  document.getElementById('modal-container').innerHTML='<div class="overlay" onclick="if(event.target===this)closeModal()"><div class="modal"><div class="modal-header"><span class="modal-title">'+esc(title||'')+'</span><button class="modal-close" onclick="closeModal()">×</button></div><div class="modal-body">'+content+'</div></div></div>';
+}
+function closeModal(){document.getElementById('modal-container').innerHTML='';}
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
+
+// ── Init ──
+let tripsLoaded=false;
+function cityCount(c){return allTrips.filter(t=>tripCity(t.fields||{}).includes(c)).length;}
+function updateHomeCounts(){
+  document.querySelectorAll('.home-card-stat[data-count]').forEach(function(el){
+    const num=el.querySelector('.stat-num');
+    if(num) num.textContent=tripsLoaded?cityCount(el.dataset.count):'…';
+  });
+}
+function showHome(){
+  document.getElementById('token-screen').style.display='none';
+  document.getElementById('app').style.display='none';
+  document.getElementById('home-screen').style.display='flex';
+  updateHomeCounts();
+}
+function enterCity(c){
+  currentCity=c;
+  document.querySelectorAll('.city-tab').forEach(x=>x.classList.toggle('active',x.dataset.city===c));
+  document.getElementById('home-screen').style.display='none';
+  document.getElementById('app').style.display='block';
+  renderView();
+}
+document.getElementById('token-btn').onclick=connectToken;
+document.getElementById('token-input').addEventListener('keydown',e=>{if(e.key==='Enter')connectToken();});
+document.getElementById('new-inquiry-btn').onclick=openNewTrip;
+document.getElementById('refresh-btn').onclick=loadTrips;
+document.getElementById('disconnect-btn').onclick=function(){localStorage.removeItem('ms_token');TOKEN='';document.getElementById('app').style.display='none';document.getElementById('home-screen').style.display='none';document.getElementById('token-screen').style.display='block';document.getElementById('token-input').value='';};
+document.getElementById('signout-btn').onclick=signOutUser;
+document.getElementById('logo-home').onclick=showHome;
+document.querySelectorAll('.home-card, .home-all').forEach(b=>b.onclick=()=>enterCity(b.dataset.city));
+document.getElementById('search').oninput=renderView;
+document.getElementById('filter-year').onchange=renderView;
+document.getElementById('filter-stage').onchange=renderView;
+document.querySelectorAll('.navbtn').forEach(b=>b.onclick=()=>setView(b.dataset.view));
+
+// ── Auth (Clerk) ──
+function onAuthed(){
+  document.getElementById('login-screen').style.display='none';
+  const saved=localStorage.getItem('ms_token');
+  if(saved){TOKEN=saved;document.getElementById('token-screen').style.display='none';initFilters();showHome();loadTrips();}
+  else{initFilters();document.getElementById('token-screen').style.display='block';}
+}
+function showUnconfiguredFallback(){
+  const msg=document.getElementById('login-fallback-msg');
+  if(msg) msg.style.display='block';
+  setTimeout(onAuthed,1200); // brief message, then continue so the app stays usable pre-setup
+}
+async function signOutUser(){
+  if(window.Clerk) await window.Clerk.signOut();
+  location.reload();
+}
+function clerkIsConfigured(){
+  // The real signal that Clerk has been set up is the script tag itself being in the HTML —
+  // not whether window.Clerk has appeared yet, which can lag on a slow network and must
+  // never be mistaken for "not configured" (that would silently skip the login gate).
+  return !!document.querySelector('script[data-clerk-publishable-key]');
+}
+function waitForClerkToLoad(){
+  return new Promise(resolve=>{
+    (function check(){
+      if(window.Clerk) return resolve();
+      setTimeout(check,100); // keep waiting as long as it takes — no timeout, no fallback, no bypass
+    })();
+  });
+}
+async function initAuth(){
+  if(!clerkIsConfigured()){
+    // No Clerk snippet pasted in at all — dev-safe fallback so the app stays usable pre-setup.
+    // This path is only reachable when the <head> genuinely has no Clerk script tag.
+    showUnconfiguredFallback();
+    return;
+  }
+  await waitForClerkToLoad();
+  await window.Clerk.load();
+  if(window.Clerk.user){ onAuthed(); return; }
+  // Send the user to Clerk's own hosted sign-in page rather than embedding a form here.
+  // This avoids the separate @clerk/ui package entirely (the source of the mounting errors) —
+  // Clerk's Account Portal handles the whole sign-in UI on its own domain, then redirects back here.
+  const msg=document.getElementById('login-redirect-msg');
+  if(msg) msg.style.display='block';
+  window.Clerk.redirectToSignIn({redirectUrl:window.location.href});
+}
+// Deferred scripts (Clerk's tags) are guaranteed to finish executing before DOMContentLoaded fires.
+// Running our own auth init only after that event — instead of immediately during page parsing —
+// avoids racing Clerk's script execution.
+if(document.readyState==='loading'){
+  document.addEventListener('DOMContentLoaded',initAuth);
+}else{
+  initAuth();
+}
+</script>
+</body>
+</html>
