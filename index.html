@@ -1436,7 +1436,7 @@ function openNewTrip(){
     <div class="finance-box">
       <div class="finance-title">Property *</div>
       <div id="nt-prop-search-wrap">
-        <input type="text" id="nt-prop-search" placeholder="Search property by name / code / city…" oninput="onPropSearchInput()">
+        <input type="text" id="nt-prop-search" placeholder="Select active listing — type code / name / city to filter…" oninput="onPropSearchInput()" onfocus="searchProperty(this.value.trim())" autocomplete="off">
         <div id="nt-prop-results" style="margin-top:6px"></div>
       </div>
       <div id="nt-prop-selected" style="display:none;margin-top:6px"></div>
@@ -1460,6 +1460,7 @@ function openNewTrip(){
     <button class="btn btn-solid" style="width:100%;justify-content:center;margin-top:4px" onclick="saveNewTrip()">Create inquiry</button>
   `;
   showModal(html,'New inquiry');
+  loadActiveProperties().catch(()=>{}); // warm the property list in the background
 }
 
 function showNewCustomerFields(){
@@ -1523,33 +1524,57 @@ function clearCrmSelection(){
   document.getElementById('nt-crm-search').value='';
   document.getElementById('nt-crm-results').innerHTML='';
 }
+// Property picker: linked to 🏫 Properties → "Active listings only" view.
+// All active listings are loaded once, then filtered client-side as you type.
+const ACTIVE_LISTINGS_VIEW='viwfJLrwbqK17mc1j';
+let ntActiveProps=null;      // cached [{id,name,listing,city,br}]
+let ntActivePropsLoading=null;
+function loadActiveProperties(){
+  if(ntActiveProps) return Promise.resolve(ntActiveProps);
+  if(ntActivePropsLoading) return ntActivePropsLoading;
+  ntActivePropsLoading=(async()=>{
+    const out=[]; let offset='';
+    do{
+      const url=BASE+'/'+PROPERTIES+'?view='+ACTIVE_LISTINGS_VIEW+'&pageSize=100'+
+        '&fields[]='+encodeURIComponent('Room ID')+'&fields[]='+encodeURIComponent('Internal listing name')+
+        '&fields[]='+encodeURIComponent('City')+'&fields[]='+encodeURIComponent('Number of bedrooms')+
+        (offset?'&offset='+encodeURIComponent(offset):'');
+      const res=await at(url);
+      (res.records||[]).forEach(r=>{
+        const f=r.fields||{};
+        out.push({id:r.id,name:f['Room ID']||'(unnamed)',listing:f['Internal listing name']||'',city:f['City']||'',br:f['Number of bedrooms']});
+      });
+      offset=res.offset||'';
+    }while(offset);
+    out.sort((a,b)=>a.name.localeCompare(b.name));
+    ntActiveProps=out;
+    return out;
+  })();
+  ntActivePropsLoading.catch(()=>{ntActivePropsLoading=null;});
+  return ntActivePropsLoading;
+}
 function onPropSearchInput(){
   clearTimeout(ntSearchTimer);
   const q=document.getElementById('nt-prop-search').value.trim();
-  const box=document.getElementById('nt-prop-results');
-  if(q.length<2){box.innerHTML='';return;}
-  ntSearchTimer=setTimeout(()=>searchProperty(q),350);
+  ntSearchTimer=setTimeout(()=>searchProperty(q),150);
 }
 async function searchProperty(q){
   const box=document.getElementById('nt-prop-results');
-  box.innerHTML='<div style="font-size:12px;color:var(--text2)">Searching…</div>';
-  const qEsc=q.replace(/"/g,'\\"');
-  const formula='SEARCH(LOWER("'+qEsc+'"),LOWER({Room ID}&" "&{Airbnb Name}&" "&{City}))';
+  if(!box) return;
+  if(!ntActiveProps) box.innerHTML='<div style="font-size:12px;color:var(--text2)">Loading active listings…</div>';
   try{
-    const url=BASE+'/'+PROPERTIES+'?maxRecords=8&filterByFormula='+encodeURIComponent(formula)+
-      '&fields[]='+encodeURIComponent('Room ID')+'&fields[]='+encodeURIComponent('City')+
-      '&fields[]='+encodeURIComponent('Number of bedrooms');
-    const res=await at(url);
-    const recs=res.records||[];
-    if(!recs.length){box.innerHTML='<div style="font-size:12px;color:var(--text2)">No matching properties</div>';return;}
-    box.innerHTML=recs.map(r=>{
-      const f=r.fields||{};
-      const name=f['Room ID']||'(unnamed)';
-      const city=f['City']||'';
-      const br=f['Number of bedrooms'];
-      return '<div class="svc-row" style="cursor:pointer" onclick="selectProperty(\''+r.id+'\',\''+escAttr(name)+'\')"><div><div class="svc-name">'+esc(name)+'</div><div class="svc-meta">'+esc(city)+(br?' · '+br+' BR':'')+'</div></div></div>';
-    }).join('');
-  }catch(e){box.innerHTML='<div style="font-size:12px;color:var(--red)">Search error: '+esc(e.message)+'</div>';}
+    const all=await loadActiveProperties();
+    const terms=(q||'').toLowerCase().replace(/[-_]/g,' ').split(/\s+/).filter(Boolean);
+    const recs=all.filter(p=>{
+      const hay=(p.name+' '+p.listing+' '+p.city).toLowerCase().replace(/[-_]/g,' ');
+      return terms.every(t=>hay.includes(t));
+    });
+    if(!recs.length){box.innerHTML='<div style="font-size:12px;color:var(--text2)">No matching active listing</div>';return;}
+    box.innerHTML='<div style="max-height:260px;overflow-y:auto">'+recs.slice(0,200).map(p=>
+      '<div class="svc-row" style="cursor:pointer" onclick="selectProperty(\''+p.id+'\',\''+escAttr(p.name)+'\')"><div><div class="svc-name">'+esc(p.name)+'</div><div class="svc-meta">'+esc(p.city)+(p.br?' · '+p.br+' BR':'')+'</div></div></div>'
+    ).join('')+'</div>'+
+      '<div style="font-size:11px;color:var(--text2);margin-top:4px">'+recs.length+' of '+all.length+' active listings</div>';
+  }catch(e){box.innerHTML='<div style="font-size:12px;color:var(--red)">Could not load properties: '+esc(e.message)+'</div>';}
 }
 function selectProperty(id,name){
   ntProperty={id,label:name};
